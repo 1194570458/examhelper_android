@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ExamHelper</string>
+    <string name="input_number">请输入手机号码</string>
+    <string name="login">登录</string>
+    <string name="forget_pwd">忘记密码</string>
+    <string name="register">注册</string>
+    <string name="choose">请选择你的科目</string>
+    <string name="loginPhone">手机号码</string>
+    <string name="password">密码</string>
 </resources>

@@ -3,4 +3,53 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorDefault">#02aaa7</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="Black">#000000</color>
+    <color name="gray">#575757</color>
+    <!-- 导航栏 -->
+    <color name="color_theme">#489cfa</color>
+    <color name="transparent">#00000000</color>
+    <color name="yellow">#fc9630</color>
+    <color name="navigation_gray">#e7e7e7</color>
+    <color name="exmaine_gray">#f5f5f5</color>
+
+
+    <color name="cardBodyColor">#02aaa7</color>
+    <color name="cardShadowColor_1">#0a8c8c8c</color>
+    <color name="cardShadowColor_2">#0f898989</color>
+    <color name="cardShadowColor_3">#14898989</color>
+    <color name="cardShadowColor_4">#19898989</color>
+    <color name="cardShadowColor_5">#1e898989</color>
+    <color name="cardShadowColor_6">#23898989</color>
+    <color name="cardShadowColor_7">#28898989</color>
+    <color name="cardShadowColor_8">#2d898989</color>
+    <color name="line">#e7e7e7</color>
+    <dimen name="cardPadding">2px</dimen>
+    <dimen name="cardRadius">10dp</dimen>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="main_bg">#288df5</color>
+    <color name="menu_bottom_bg">#288df5</color>
+    <color name="menu_bottom_text">#f2f8ff</color>
+    <color name="info_black_text">#585858</color>
+    <color name="info_gray_text">#979797</color>
+    <color name="info_blue_text">#3993f3</color>
+    <color name="info_layout_bg">#eaeaea</color>
+    <color name="info_honorroll_item_text">#656565</color>
+    <color name="view_manager">#e3e3e3</color>
+    <color name="black_text">#FF18191A</color>
+    <!-- 答题 -->
+    <color name="practice_test_no_text">#2b89e9</color>
+    <color name="practice_test_content_text">#2f2f2f</color>
+    <color name="practice_test_result_text">#9a9a9a</color>
+    <color name="practice_test_result_right_text">#61bc31</color>
+    <color name="practice_test_result_wrong_text">#d53235</color>
+    <color name="practice_test_result_statistics_text">#2991f4</color>
+    <color name="practice_test_result_detail_text">#ab8b28</color>
+    <color name="my_error_question_text_black">#333333</color>
+    <color name="lucky_text_redtop">#e33b20</color>
+    <color name="lucky_text_black">#676566</color>
+    <color name="lucky_text_red">#e43b1c</color>
+    <color name="black38_text">#383838</color>
 </resources>
