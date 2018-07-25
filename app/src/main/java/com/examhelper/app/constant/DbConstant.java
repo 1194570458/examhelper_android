@@ -5,6 +5,6 @@ package com.examhelper.app.constant;
  */
 
 public class DbConstant {
-    public static final String Question_DB_NAME = "Charpter";//数据库名
+    public static final String Question_DB_NAME = "QuestionBank";//数据库名
     public static final int DB_VERSION = 1;//数据库版本
 }

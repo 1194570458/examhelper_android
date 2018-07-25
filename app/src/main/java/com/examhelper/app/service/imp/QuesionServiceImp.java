@@ -27,7 +27,9 @@ public class QuesionServiceImp implements IQuestionService {
 
     @Override
     public void addQuestions(List<Question> questionList) {
-        questionDaoImp.insert(questionList);
+        for (Question question : questionList) {
+            addQuestion(question);
+        }
     }
 
     @Override

@@ -1,10 +1,9 @@
 package com.examhelper.app.entity;
 
+import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-
-import java.util.Arrays;
 
 /**
  * 试题Bean
@@ -13,26 +12,33 @@ import java.util.Arrays;
 @DatabaseTable()
 public class Question {
     //试题ID
-    @DatabaseField(id = true, generatedId = true)
+    @DatabaseField(id = true)
     private Integer questsionId;
 
     //题目内容
+    @SerializedName("title")
     @DatabaseField(canBeNull = false)
-    private String topic;
+    private String title;
 
     //选项内容
+    @SerializedName("select")
     @DatabaseField(canBeNull = false)
-    private String[] select;
+    private String select;
 
     //结果选项
+    @SerializedName("result")
     @DatabaseField(canBeNull = false)
     private Integer result;
+
+    @DatabaseField()
+    private String analysis;
 
     //题目所属章节,外键
     @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     private Chapter chapter;
 
     //题目所属证数ID
+    @SerializedName("cerId")
     @DatabaseField()
     private Integer cerId;
 
@@ -44,6 +50,17 @@ public class Question {
     @DatabaseField(dataType = DataType.BOOLEAN)
     private boolean isCollect;
 
+    public Question() {
+    }
+
+    public Question(String title, String select, Integer result, String analysis, Chapter chapter, Integer cerId) {
+        this.title = title;
+        this.select = select;
+        this.result = result;
+        this.analysis = analysis;
+        this.chapter = chapter;
+        this.cerId = cerId;
+    }
 
     public Integer getQuestsionId() {
         return questsionId;
@@ -53,19 +70,19 @@ public class Question {
         this.questsionId = questsionId;
     }
 
-    public String getTopic() {
-        return topic;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String[] getSelect() {
+    public String getSelect() {
         return select;
     }
 
-    public void setSelect(String[] select) {
+    public void setSelect(String select) {
         this.select = select;
     }
 
@@ -113,8 +130,8 @@ public class Question {
     public String toString() {
         return "Question{" +
                 "questsionId=" + questsionId +
-                ", topic='" + topic + '\'' +
-                ", select=" + Arrays.toString(select) +
+                ", title='" + title + '\'' +
+                ", select=" + select +
                 ", result=" + result +
                 ", chapter=" + chapter +
                 ", cerId=" + cerId +

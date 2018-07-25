@@ -2,6 +2,7 @@ package com.examhelper.app.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.examhelper.app.constant.DbConstant;
 import com.examhelper.app.entity.Chapter;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 
 /**
+ * 试题保存数据库
  * Created by Administrator on 2018/7/24.
  */
 
@@ -27,12 +29,8 @@ public class QuestionsDbHelper extends OrmLiteSqliteOpenHelper {
 
     private Map<String, Dao> daos = new HashMap<String, Dao>();
 
-    public QuestionsDbHelper(Context context) {
+    private QuestionsDbHelper(Context context) {
         super(context, DbConstant.Question_DB_NAME, null, DbConstant.DB_VERSION);
-    }
-
-    private QuestionsDbHelper(Context context, String databaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion) {
-        super(context, databaseName, factory, databaseVersion);
     }
 
     /**
@@ -62,8 +60,10 @@ public class QuestionsDbHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
+            Log.e("QuestionsDbHelper", "onCreate");
             TableUtils.createTable(connectionSource, Chapter.class);
             TableUtils.createTable(connectionSource, Question.class);
+            TableUtils.createTable(connectionSource, ErrorRecognition.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }

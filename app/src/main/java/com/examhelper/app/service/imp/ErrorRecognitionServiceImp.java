@@ -31,17 +31,6 @@ public class ErrorRecognitionServiceImp implements IErrorRecognitionService {
         errorRecognitionDaoImp.delete(errorRecognition);
     }
 
-    @Override
-    public void updateQuestion(ErrorRecognition errorRecognition) {
-        errorRecognitionDaoImp.update(errorRecognition);
-    }
-
-    @Override
-    public ErrorRecognition queryQuestion(int questionId) {
-        ErrorRecognition errorRecognition = errorRecognitionDaoImp.selectErrorRecognition(questionId);
-        return errorRecognition;
-    }
-
 
     @Override
     public List<ErrorRecognition> queryQuestions() {

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IErrorRecognitionDao {
     /**
-     * 单个插入
+     * 更新或者插入
      *
      * @param errorRecognition
      */
@@ -23,20 +23,6 @@ public interface IErrorRecognitionDao {
      */
     void delete(ErrorRecognition errorRecognition);
 
-    /**
-     * 更新
-     *
-     * @param errorRecognition
-     */
-    void update(ErrorRecognition errorRecognition);
-
-    /**
-     * 根据主键查询
-     *
-     * @param questionId
-     * @return
-     */
-    ErrorRecognition selectErrorRecognition(int questionId);
 
     /**
      * 查询全部题目

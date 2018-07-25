@@ -2,8 +2,6 @@ package com.examhelper.app.dao;
 
 import com.examhelper.app.entity.Chapter;
 
-import java.util.List;
-
 /**
  * Created by Administrator on 2018/7/24.
  */
@@ -15,11 +13,6 @@ public interface IChapterDao {
      */
     void insert(Chapter chapter);
 
-    /**
-     * 批量插入
-     * @param chapters
-     */
-    void insert(List<Chapter> chapters);
 
     /**
      * 删除

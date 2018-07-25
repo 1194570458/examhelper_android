@@ -1,27 +1,38 @@
 package com.examhelper.app.entity;
 
+import com.google.gson.annotations.SerializedName;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.util.List;
-
-/**章节Bean
+/**
+ * 章节Bean
  * Created by Administrator on 2018/7/24.
  */
 @DatabaseTable
 public class Chapter {
     //试题ID
-    @DatabaseField(id = true, foreign = true)
+    @DatabaseField(id = true)
+    @SerializedName("proId")
     private Integer chapterId;
 
     //题目内容
+    @SerializedName("chapter")
     @DatabaseField()
     private String chapterName;
 
+    public Chapter() {
+    }
+
+    public Chapter(Integer chapterId, String chapterName) {
+        this.chapterId = chapterId;
+        this.chapterName = chapterName;
+    }
+
     //章节所有题目
     @ForeignCollectionField(eager = true)
-    private List<Question> questions;
+    private ForeignCollection<Question> questions;
 
     public Integer getChapterId() {
         return chapterId;
@@ -39,11 +50,11 @@ public class Chapter {
         this.chapterName = chapterName;
     }
 
-    public List<Question> getQuestions() {
+    public ForeignCollection<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<Question> questions) {
+    public void setQuestions(ForeignCollection<Question> questions) {
         this.questions = questions;
     }
 

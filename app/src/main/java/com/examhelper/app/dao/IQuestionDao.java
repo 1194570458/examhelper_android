@@ -17,13 +17,6 @@ public interface IQuestionDao {
     void insert(Question question);
 
     /**
-     * 批量插入
-     *
-     * @param questions
-     */
-    void insert(List<Question> questions);
-
-    /**
      * 删除
      *
      * @param question

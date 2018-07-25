@@ -1,13 +1,13 @@
 package com.examhelper.app.entity;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
-import java.util.Arrays;
-
-/**错题Bean
+/**
+ * 错题Bean
  * Created by Administrator on 2018/7/24.
  */
-
+@DatabaseTable
 public class ErrorRecognition {
     //错题ID
     @DatabaseField(id = true)
@@ -15,11 +15,11 @@ public class ErrorRecognition {
 
     //题目内容
     @DatabaseField(canBeNull = false)
-    private String topic;
+    private String title;
 
     //选项内容
     @DatabaseField(canBeNull = false)
-    private String[] select;
+    private String select;
 
     //结果选项
     @DatabaseField(canBeNull = false)
@@ -42,19 +42,19 @@ public class ErrorRecognition {
         this.questsionId = questsionId;
     }
 
-    public String getTopic() {
-        return topic;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String[] getSelect() {
+    public String getSelect() {
         return select;
     }
 
-    public void setSelect(String[] select) {
+    public void setSelect(String select) {
         this.select = select;
     }
 
@@ -86,8 +86,8 @@ public class ErrorRecognition {
     public String toString() {
         return "ErrorRecognition{" +
                 "questsionId=" + questsionId +
-                ", topic='" + topic + '\'' +
-                ", select=" + Arrays.toString(select) +
+                ", title='" + title + '\'' +
+                ", select=" + select +
                 ", result=" + result +
                 ", chapter=" + chapter +
                 ", cerId=" + cerId +

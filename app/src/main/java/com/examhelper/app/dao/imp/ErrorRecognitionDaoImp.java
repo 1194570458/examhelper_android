@@ -30,7 +30,7 @@ public class ErrorRecognitionDaoImp implements IErrorRecognitionDao {
     @Override
     public void insert(ErrorRecognition errorRecognition) {
         try {
-            errorRecognitionDao.create(errorRecognition);
+            errorRecognitionDao.createOrUpdate(errorRecognition);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -46,25 +46,7 @@ public class ErrorRecognitionDaoImp implements IErrorRecognitionDao {
         }
     }
 
-    @Override
-    public void update(ErrorRecognition errorRecognition) {
-        try {
-            errorRecognitionDao.update(errorRecognition);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @Override
-    public ErrorRecognition selectErrorRecognition(int questionId) {
-        ErrorRecognition queryQuestion = null;
-        try {
-            queryQuestion = errorRecognitionDao.queryForId(questionId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return queryQuestion;
-    }
 
     @Override
     public List<ErrorRecognition> selectErrorRecognitions() {

@@ -7,6 +7,8 @@ import com.examhelper.app.dao.imp.ChapterDaoImp;
 import com.examhelper.app.entity.Chapter;
 import com.examhelper.app.service.IChapterService;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2018/7/24.
  */
@@ -21,6 +23,13 @@ public class ChapterServiceImp implements IChapterService {
     @Override
     public void addChapter(Chapter chapter) {
         chapterDaoImp.insert(chapter);
+    }
+
+    @Override
+    public void addChapters(List<Chapter> chapters) {
+        for (Chapter chapter : chapters) {
+            addChapter(chapter);
+        }
     }
 
     @Override

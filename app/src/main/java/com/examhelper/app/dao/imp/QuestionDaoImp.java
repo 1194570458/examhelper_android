@@ -36,14 +36,7 @@ public class QuestionDaoImp implements IQuestionDao {
         }
     }
 
-    @Override
-    public void insert(List<Question> questions) {
-        try {
-            questionsDao.create(questions);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     @Override
     public void delete(Question question) {

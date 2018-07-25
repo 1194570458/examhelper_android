@@ -14,9 +14,5 @@ public interface IErrorRecognitionService {
 
     void removeQuestion(ErrorRecognition errorRecognition);
 
-    void updateQuestion(ErrorRecognition errorRecognition);
-
-    ErrorRecognition queryQuestion(int questionId);
-
     List<ErrorRecognition> queryQuestions();
 }
