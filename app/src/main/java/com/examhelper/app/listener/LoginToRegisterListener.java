@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.examhelper.app.activity.RegisterAcitivity;
+import com.examhelper.app.ui.activity.RegisterAcitivity;
 
 
 public class LoginToRegisterListener implements View.OnClickListener {

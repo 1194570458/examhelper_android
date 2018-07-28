@@ -36,7 +36,6 @@ public class ChapterDaoImp implements IChapterDao {
     }
 
 
-
     @Override
     public void delete(Chapter chapter) {
         try {
@@ -64,5 +63,16 @@ public class ChapterDaoImp implements IChapterDao {
             e.printStackTrace();
         }
         return chapter;
+    }
+
+    @Override
+    public long queryCount() {
+        long count = 0;
+        try {
+            count = characterDao.queryBuilder().countOf();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 }

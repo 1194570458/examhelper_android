@@ -7,4 +7,14 @@
     <string name="choose">请选择你的科目</string>
     <string name="loginPhone">手机号码</string>
     <string name="password">密码</string>
+
+    <string name="cllection">收藏</string>
+    <string name="up">上一题</string>
+    <string name="next">下一题</string>
+    <string name="one">单选题</string>
+    <string name="multi">多选题</string>
+    <string name="select">您给出的回答选项？</string>
+
+    <string name="exam">模拟测验</string>
+    <string name="answer">答题模式</string>
 </resources>

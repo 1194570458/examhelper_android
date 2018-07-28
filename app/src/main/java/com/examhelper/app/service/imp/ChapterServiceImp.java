@@ -47,4 +47,9 @@ public class ChapterServiceImp implements IChapterService {
         Chapter chapter = chapterDaoImp.selectChapter(chapterId);
         return chapter;
     }
+
+    @Override
+    public long queryCount() {
+        return chapterDaoImp.queryCount();
+    }
 }

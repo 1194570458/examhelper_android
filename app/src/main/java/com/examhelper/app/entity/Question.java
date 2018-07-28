@@ -5,12 +5,14 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * 试题Bean
  * Created by Administrator on 2018/7/24.
  */
 @DatabaseTable()
-public class Question {
+public class Question implements Serializable {
     //试题ID
     @DatabaseField(id = true)
     private Integer questsionId;
@@ -28,7 +30,7 @@ public class Question {
     //结果选项
     @SerializedName("result")
     @DatabaseField(canBeNull = false)
-    private Integer result;
+    private String result;
 
     @DatabaseField()
     private String analysis;
@@ -53,7 +55,8 @@ public class Question {
     public Question() {
     }
 
-    public Question(String title, String select, Integer result, String analysis, Chapter chapter, Integer cerId) {
+    public Question(Integer questsionId, String title, String select, String result, String analysis, Chapter chapter, Integer cerId) {
+        this.questsionId = questsionId;
         this.title = title;
         this.select = select;
         this.result = result;
@@ -86,11 +89,11 @@ public class Question {
         this.select = select;
     }
 
-    public Integer getResult() {
+    public String getResult() {
         return result;
     }
 
-    public void setResult(Integer result) {
+    public void setResult(String result) {
         this.result = result;
     }
 
@@ -108,6 +111,14 @@ public class Question {
 
     public void setCerId(Integer cerId) {
         this.cerId = cerId;
+    }
+
+    public String getAnalysis() {
+        return analysis;
+    }
+
+    public void setAnalysis(String analysis) {
+        this.analysis = analysis;
     }
 
     public boolean isCollect() {

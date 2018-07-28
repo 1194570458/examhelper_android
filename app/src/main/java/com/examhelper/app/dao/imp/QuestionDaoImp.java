@@ -30,7 +30,7 @@ public class QuestionDaoImp implements IQuestionDao {
     @Override
     public void insert(Question question) {
         try {
-            questionsDao.create(question);
+            questionsDao.createOrUpdate(question);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -6,12 +6,14 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * 章节Bean
  * Created by Administrator on 2018/7/24.
  */
 @DatabaseTable
-public class Chapter {
+public class Chapter implements Serializable{
     //试题ID
     @DatabaseField(id = true)
     @SerializedName("proId")

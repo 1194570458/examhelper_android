@@ -8,7 +8,7 @@ import com.examhelper.app.entity.Chapter;
 
 public interface IChapterDao {
     /**
-     * 插入单个
+     * 更新或者插入
      * @param chapter
      */
     void insert(Chapter chapter);
@@ -32,4 +32,7 @@ public interface IChapterDao {
      * @return
      */
     Chapter selectChapter(int chapterId);
+
+
+    long queryCount();
 }

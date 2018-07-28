@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/info_layout_bg"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/header_layout"
+        android:layout_weight="1"
+        layout="@layout/header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+    <RelativeLayout
+        android:id="@+id/vote_submit_relative"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:layout_below="@id/header_layout">
+
+        <com.examhelper.app.ui.view.VoteSubmitViewPager
+            android:id="@+id/vote_submit_viewpager"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/bottom_layout"
+        layout="@layout/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>

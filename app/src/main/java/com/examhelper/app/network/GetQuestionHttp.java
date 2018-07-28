@@ -37,8 +37,13 @@ public class GetQuestionHttp {
         chapterService = new ChapterServiceImp(context);
         questionService = new QuesionServiceImp(context);
         requestQueue = Volley.newRequestQueue(context);
-        doHttp(HttpConstant.API_GET_ALL_CHAPTER);//获取所有章节
-        doHttp(HttpConstant.API_GET_ALL_QUESTION);//获取所有题目
+    }
+
+    public void getData() {
+        //TODO 根据本地已缓存试题数据请求服务器获取其他试题数据
+        long chapterAcount = chapterService.queryCount();
+        requestPropertys();//获取所有章节
+        requestSynthesizes();//获取所有题目
     }
 
     public static GetQuestionHttp getInstance(Context context) {
@@ -52,14 +57,31 @@ public class GetQuestionHttp {
         return getQuestionHttp;
     }
 
-    public void doHttp(final String url) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+
+
+    /**
+     * 添加到章节表
+     */
+    private void requestPropertys() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(HttpConstant.API_PROPERTYS, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("GetQuestionHttp", "API:" + url + ":response:" + response);
-                insertIntoDb(url, response);
+                Log.d("GetQuestionHttp", "API:" + HttpConstant.API_PROPERTYS + ":response:" + response);
+                try {
+                    List<Chapter> chapters = new ArrayList<>();
+                    JSONArray data = response.getJSONArray("data");
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject jsonObject = data.getJSONObject(i);
+                        Chapter chapter = new Chapter(jsonObject.getInt("proId"), jsonObject.getString("chapter"));
+                        Log.e("GetQuestionHttp", "chapter:" + chapter);
+                        chapters.add(chapter);
+                    }
+                    //添加到数据库
+                    chapterService.addChapters(chapters);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -69,78 +91,51 @@ public class GetQuestionHttp {
             }
         });
         requestQueue.add(jsonObjectRequest);
-    }
 
-    private void insertIntoDb(String url, JSONObject response) {
-        try {
-            if (response.getInt("code") == 0) {
-                JSONArray data = response.getJSONArray("data");
-                switch (url) {
-                    case HttpConstant.API_GET_ALL_CHAPTER: {
-                        insertChapter(data);
-                        break;
-                    }
-                    case HttpConstant.API_GET_ALL_QUESTION: {
-                        insertQuestion(data);
-                        break;
-                    }
-                }
-            } else {
-                Log.e("GetQuestionHttp", "insertIntoDb: API请求异常");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 添加到章节表
-     *
-     * @param data
-     */
-    private void insertChapter(JSONArray data) {
-        try {
-            List<Chapter> chapters = new ArrayList<>();
-            for (int i = 0; i < data.length(); i++) {
-                JSONObject jsonObject = data.getJSONObject(i);
-                Chapter chapter = new Chapter(jsonObject.getInt("proId"), jsonObject.getString("chapter"));
-                Log.e("GetQuestionHttp", "chapter:" + chapter);
-                chapters.add(chapter);
-            }
-            chapterService.addChapters(chapters);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
 
     /**
      * 添加到试题表
-     *
-     * @param data
      */
-    private void insertQuestion(JSONArray data) {
-        try {
-            List<Question> questions = new ArrayList<>();
-            for (int i = 0; i < data.length(); i++) {
-                JSONObject jsonObject = data.getJSONObject(i);
-                Chapter chapter = new Chapter();
-                chapter.setChapterId(jsonObject.getInt("proId"));
-                Question question = new Question(
-                        jsonObject.getString("title"),
-                        jsonObject.getString("select"),
-                        jsonObject.getInt("result"),
-                        jsonObject.getString("analysis"),
-                        chapter,
-                        jsonObject.getInt("cerId")
-                );
-                Log.e("GetQuestionHttp", "chapter:" + chapter);
-                questions.add(question);
+    private void requestSynthesizes() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(HttpConstant.API_SYNTHESIZES, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("GetQuestionHttp", "API:" + HttpConstant.API_SYNTHESIZES + ":response:" + response);
+                try {
+                    JSONArray data = response.getJSONArray("data");
+                    List<Question> questions = new ArrayList<>();
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject jsonObject = data.getJSONObject(i);
+                        Chapter chapter = new Chapter();
+                        chapter.setChapterId(jsonObject.getInt("proId"));
+                        Question question = new Question(
+                                jsonObject.getInt("synId"),
+                                jsonObject.getString("title"),
+                                jsonObject.getString("select"),
+                                jsonObject.getString("result"),
+                                jsonObject.getString("analysis"),
+                                chapter,
+                                jsonObject.getInt("cerId")
+                        );
+                        Log.e("GetQuestionHttp", "chapter:" + question);
+                        questions.add(question);
+                    }
+                    questionService.addQuestions(questions);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-            questionService.addQuestions(questions);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error != null) {
+                    Log.e("GetQuestionHttp", error.toString());
+                }
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
     }
 
 }

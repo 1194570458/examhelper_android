@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IQuestionDao {
     /**
-     * 单个插入
+     * 更新或者插入
      *
      * @param question
      */

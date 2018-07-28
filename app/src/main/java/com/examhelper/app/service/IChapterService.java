@@ -19,4 +19,6 @@ public interface IChapterService {
     void updateChapter(Chapter chapter);
 
     Chapter queryChapter(int chapterId);
+
+    long queryCount();
 }
