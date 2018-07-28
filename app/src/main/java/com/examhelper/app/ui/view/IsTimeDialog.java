@@ -8,35 +8,36 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.examhelper.app.R;
+import com.examhelper.app.constant.EventBusMessageConstant;
+import com.examhelper.app.messageevent.IsTimeShowEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Administrator on 2018/7/27.
  */
 
 public class IsTimeDialog extends Dialog implements View.OnClickListener {
-    private String type;
+    private int type;
 
-    public IsTimeDialog(@NonNull Context context, String type) {
+    public IsTimeDialog(@NonNull Context context, int type) {
         super(context, R.style.dialog);
         this.type = type;
         setContentView(R.layout.my_dialog);
         initView(type);
     }
 
-    private void initView(String type) {
+    private void initView(int type) {
         TextView title = (TextView) findViewById(R.id.dialog_title);
         TextView content = (TextView) findViewById(R.id.dialog_content);
         Button confirm_btn = (Button) findViewById(R.id.dialog_sure);
         Button cancel_btn = (Button) findViewById(R.id.dialog_cancle);
-        if (type.equals("0")) {
+        if (type == IsTimeShowEvent.IS_TIME) {
             content.setText("您的答题时间结束,是否提交试卷?");
-        } else if (type.equals("1")) {
-            content.setText("您要结束本次模拟答题吗？");
-        }
-        if (type.equals("0")) {
             confirm_btn.setText("提交");
             cancel_btn.setText("退出");
-        } else if (type.equals("1")) {
+        } else if (type == IsTimeShowEvent.IS_END) {
+            content.setText("您要结束本次模拟答题吗？");
             confirm_btn.setText("退出");
             cancel_btn.setText("继续答题");
         } else {
@@ -52,7 +53,7 @@ public class IsTimeDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_cancle: {
-                if (type.equals("0")) {
+                if (type == IsTimeShowEvent.IS_TIME) {
                     dismiss();
                 } else {
                     dismiss();
@@ -61,10 +62,10 @@ public class IsTimeDialog extends Dialog implements View.OnClickListener {
                 break;
             }
             case R.id.dialog_sure: {
-                if (type.equals("0")) {
+                if (type == IsTimeShowEvent.IS_END) {
                     IsTimeDialog.this.dismiss();
-                    //TODO 统计测试
-//                    uploadExamination(pagerAdapter.errorTopicNum());
+                    // 统计测试
+                    EventBus.getDefault().post(EventBusMessageConstant.COUNTING_SCORE);
                 } else {
                     IsTimeDialog.this.dismiss();
                 }

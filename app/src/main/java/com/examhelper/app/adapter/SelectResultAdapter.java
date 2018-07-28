@@ -10,7 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.examhelper.app.R;
+import com.examhelper.app.entity.ErrorRecognition;
 import com.examhelper.app.entity.Question;
+import com.examhelper.app.service.IErrorRecognitionService;
+import com.examhelper.app.service.imp.ErrorRecognitionServiceImp;
 
 /**
  * Created by Administrator on 2018/7/26.
@@ -22,10 +25,13 @@ import com.examhelper.app.entity.Question;
 public class SelectResultAdapter extends BaseAdapter {
     TextView explaindetail_TV;//显示题目解析内容的TextView
     LinearLayout wrongLayout;
-    Question question;//该题所有数据对象
     View rootView;//ListView的父View
+
+    Question question;//该题所有数据对象
     String[] select;//选择内容
     boolean isMulti;//是否为多选题
+
+    IErrorRecognitionService errorRecognitionService;
 
     public SelectResultAdapter(Question question, View rootView) {
         this.question = question;
@@ -33,10 +39,10 @@ public class SelectResultAdapter extends BaseAdapter {
         explaindetail_TV = rootView.findViewById(R.id.activity_prepare_test_explaindetail);
         wrongLayout = rootView.findViewById(R.id.activity_prepare_test_wrongLayout);
         initData();
-
     }
 
     private void initData() {
+        errorRecognitionService = new ErrorRecognitionServiceImp(rootView.getContext());
         select = question.getSelect().split(" , ");
         if (select.length > 0) {
             isMulti = true;
@@ -70,15 +76,20 @@ public class SelectResultAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (question.getResult().contains(String.valueOf(position))) {
+                    question.setRight(true);
                     isRight_Img.setImageResource(R.mipmap.ic_practice_test_right);
                     select_Tv.setTextColor(R.color.right);
                 } else {
+                    question.setRight(false);
                     isRight_Img.setImageResource(R.mipmap.ic_practice_test_wrong);
                     select_Tv.setTextColor(R.color.error);
                     //显示试题解析
                     explaindetail_TV.setText(question.getAnalysis());
                     wrongLayout.setVisibility(View.VISIBLE);
-                    //TODO 提交错误题表中
+                    // 提交错误题表中
+                    ErrorRecognition errorRecognition = new ErrorRecognition();
+                    errorRecognition.copy(question);
+                    errorRecognitionService.addQuestion(errorRecognition);
                 }
             }
         });
