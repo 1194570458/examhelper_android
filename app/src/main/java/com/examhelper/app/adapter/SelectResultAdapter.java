@@ -89,7 +89,8 @@ public class SelectResultAdapter extends BaseAdapter {
                     // 提交错误题表中
                     ErrorRecognition errorRecognition = new ErrorRecognition();
                     errorRecognition.copy(question);
-                    errorRecognitionService.addQuestion(errorRecognition);
+                    errorRecognition.setWrongResult(String.valueOf(position));
+                    errorRecognitionService.addErrorRecognition(errorRecognition);
                 }
             }
         });

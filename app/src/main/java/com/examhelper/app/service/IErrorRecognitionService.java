@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface IErrorRecognitionService {
 
-    void addQuestion(ErrorRecognition errorRecognition);
+    void addErrorRecognition(ErrorRecognition errorRecognition);
 
-    void removeQuestion(ErrorRecognition errorRecognition);
+    void removeErrorRecognition(ErrorRecognition errorRecognition);
 
-    List<ErrorRecognition> queryQuestions();
+    List<ErrorRecognition> queryErrorRecognition();
 }

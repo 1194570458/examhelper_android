@@ -1,15 +1,12 @@
 package com.examhelper.app.listener;
 
-import android.content.Context;
 import android.support.v4.view.ViewPager;
 
 /**
- * Created by Administrator on 2018/7/27.
+ * Created by Administrator on 2018/7/28.
  */
 
-public class AnalogyExaminationOnPagerChangeListener implements ViewPager.OnPageChangeListener {
-
-    Context context;
+public class ExaminationViewPagerListener implements ViewPager.OnPageChangeListener {
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

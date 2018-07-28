@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import com.examhelper.app.R;
 import com.examhelper.app.constant.IntentFlagConstant;
 import com.examhelper.app.entity.Question;
 import com.examhelper.app.service.IQuestionService;
@@ -28,7 +29,8 @@ public class LoginToMainListener implements View.OnClickListener {
         IQuestionService iQuestionService = new QuesionServiceImp(v.getContext());
         List<Question> questions = iQuestionService.queryAllQuestions();
         intent.putExtra(IntentFlagConstant.GET_QUESTIONS, (Serializable) questions);
-        intent.putExtra(IntentFlagConstant.IS_EXMA, true);
+        intent.putExtra(IntentFlagConstant.IS_EXMA, false);
+        intent.putExtra(IntentFlagConstant.PATTERN_TITLE, v.getContext().getResources().getString(R.string.patterns_of_anwser));
         context.startActivity(intent);
     }
 }

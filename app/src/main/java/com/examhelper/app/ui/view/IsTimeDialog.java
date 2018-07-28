@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.examhelper.app.R;
 import com.examhelper.app.constant.EventBusMessageConstant;
 import com.examhelper.app.messageevent.IsTimeShowEvent;
+import com.examhelper.app.ui.activity.AnalogyExaminationActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -19,9 +20,11 @@ import org.greenrobot.eventbus.EventBus;
 
 public class IsTimeDialog extends Dialog implements View.OnClickListener {
     private int type;
+    private Context context;
 
     public IsTimeDialog(@NonNull Context context, int type) {
         super(context, R.style.dialog);
+        this.context = context;
         this.type = type;
         setContentView(R.layout.my_dialog);
         initView(type);
@@ -62,12 +65,13 @@ public class IsTimeDialog extends Dialog implements View.OnClickListener {
                 break;
             }
             case R.id.dialog_sure: {
-                if (type == IsTimeShowEvent.IS_END) {
+                if (type == IsTimeShowEvent.IS_TIME) {
                     IsTimeDialog.this.dismiss();
                     // 统计测试
                     EventBus.getDefault().post(EventBusMessageConstant.COUNTING_SCORE);
                 } else {
                     IsTimeDialog.this.dismiss();
+                    ((AnalogyExaminationActivity) context).finish();
                 }
                 break;
             }

@@ -25,6 +25,10 @@ public class ErrorRecognition {
     @DatabaseField(canBeNull = false)
     private String result;
 
+    //选择错误选项
+    @DatabaseField(canBeNull = false)
+    private String wrongResult;
+
     //解析
     @DatabaseField(canBeNull = false)
     private String analysis;
@@ -94,6 +98,14 @@ public class ErrorRecognition {
         this.analysis = analysis;
     }
 
+    public String getWrongResult() {
+        return wrongResult;
+    }
+
+    public void setWrongResult(String wrongResult) {
+        this.wrongResult = wrongResult;
+    }
+
     public void copy(Question question) {
         setQuestsionId(question.getQuestsionId());
         setTitle(question.getTitle());
@@ -111,6 +123,7 @@ public class ErrorRecognition {
                 ", title='" + title + '\'' +
                 ", select='" + select + '\'' +
                 ", result='" + result + '\'' +
+                ", wrongResult='" + wrongResult + '\'' +
                 ", analysis='" + analysis + '\'' +
                 ", chapter=" + chapter +
                 ", cerId=" + cerId +
