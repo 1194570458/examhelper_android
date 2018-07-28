@@ -1,4 +1,4 @@
-package com.examhelper.app.activity;
+package com.examhelper.app.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

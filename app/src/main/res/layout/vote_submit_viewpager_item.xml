@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eaeaea">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_layout"
+        android:layout_margin="@dimen/margin_10"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--题意显示-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_10">
+
+                <TextView
+                    android:id="@+id/activity_prepare_test_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_menu_margin_8"
+                    android:textColor="@color/practice_test_no_text"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/activity_prepare_test_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_menu_margin_8"
+                    android:textColor="@color/practice_test_content_text"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- 单选 -->
+            <LinearLayout
+                android:id="@+id/activity_prepare_test_radioBtnLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/activity_prepare_test_selectLV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@color/white"
+                    android:dividerHeight="25dp"></ListView>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <!-- 错题分析 -->
+        <LinearLayout
+            android:id="@+id/activity_prepare_test_wrongLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/btn_height"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_10"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/ic_practice_test_analyze" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_15"
+                android:background="@mipmap/ic_practice_test_explaindetail"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_prepare_test_explaindetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/practice_test_result_detail_text" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
