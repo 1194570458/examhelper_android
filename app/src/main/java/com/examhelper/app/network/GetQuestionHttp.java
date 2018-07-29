@@ -66,7 +66,7 @@ public class GetQuestionHttp {
     /**
      * 获取所有章节
      */
-    private void requestPropertys() {
+    public void requestPropertys() {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(HttpConstant.API_ALL_PROPERTYS, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -77,10 +77,11 @@ public class GetQuestionHttp {
                         JSONArray data = response.getJSONArray("data");
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject jsonObject = data.getJSONObject(i);
-                            Chapter chapter = new Chapter(jsonObject.getInt("proId"), jsonObject.getString("chapter"));
-                            Log.e("GetQuestionHttp", "chapter:" + chapter);
+                            Chapter chapter = new Chapter(jsonObject.getInt("proId"),
+                                    jsonObject.getString("chapter"));
                             chapters.add(chapter);
                         }
+                        Log.d("GetQuestionHttp", "chapters:" + chapters);
                         //添加到数据库
                         chapterService.addChapters(chapters);
                     }
@@ -97,7 +98,6 @@ public class GetQuestionHttp {
             }
         });
         requestQueue.add(jsonObjectRequest);
-
     }
 
     /**
@@ -118,7 +118,7 @@ public class GetQuestionHttp {
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject jsonObject = data.getJSONObject(i);
                             Chapter chapter = new Chapter(jsonObject.getInt("proId"), jsonObject.getString("chapter"));
-                            Log.e("GetQuestionHttp", "chapter:" + chapter);
+                            Log.d("GetQuestionHttp", "chapter:" + chapter);
                             chapters.add(chapter);
                         }
                         //添加到数据库
@@ -144,7 +144,7 @@ public class GetQuestionHttp {
     /**
      * 获取所有试题
      */
-    private void requestSynthesizes() {
+    public void requestSynthesizes() {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(HttpConstant.API_ALL_SYNTHESIZES, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -168,7 +168,7 @@ public class GetQuestionHttp {
                                     chapter,
                                     certification
                             );
-                            Log.e("GetQuestionHttp", "chapter:" + question);
+                            Log.d("GetQuestionHttp", "chapter:" + question);
                             questions.add(question);
                         }
                         questionService.addQuestions(questions);
@@ -219,7 +219,7 @@ public class GetQuestionHttp {
                                     chapter,
                                     certification
                             );
-                            Log.e("GetQuestionHttp", "chapter:" + question);
+                            Log.d("GetQuestionHttp", "chapter:" + question);
                             questions.add(question);
                         }
                         questionService.addQuestions(questions);
@@ -246,7 +246,7 @@ public class GetQuestionHttp {
      * @param password
      * @return 0 代表成功 1代表失败
      */
-    public int requestLogin(String userName, String password) {
+    public void requestLogin(String userName, String password){
         final String url = String.format(HttpConstant.API_LOGIN, userName, password);
         final int[] status = new int[1];
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
@@ -255,7 +255,6 @@ public class GetQuestionHttp {
                 Log.d("GetQuestionHttp", "API:" + url + ":response:" + response);
                 try {
                     if (response.getInt("code") == 0) {
-                        status[0] = 0;
                         JSONObject jsonObject = response.getJSONObject("data");
                         Certification certification = new Certification();
                         certification.setCerId(jsonObject.getInt("cerId"));
@@ -275,7 +274,7 @@ public class GetQuestionHttp {
                         //获取证书数据
                         requestCertificateById(certification.getCerId());
                     } else {
-                        status[0] = 1;
+                        //TODO 登陆失败todo
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -290,7 +289,6 @@ public class GetQuestionHttp {
             }
         });
         requestQueue.add(jsonObjectRequest);
-        return status[0];
     }
 
     /**

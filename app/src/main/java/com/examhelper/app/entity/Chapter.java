@@ -13,11 +13,11 @@ import java.io.Serializable;
  */
 @DatabaseTable
 public class Chapter implements Serializable{
-    //试题ID
+    //章节ID
     @DatabaseField(id = true)
     private Integer chapterId;
 
-    //题目内容
+    //章节名
     @DatabaseField()
     private String chapterName;
 
