@@ -56,17 +56,16 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     ExaminationSubmitAdapter pagerAdapter;
 
     List<Question> questions = new ArrayList<Question>();
-    private String pageCode;
-    private int pageScore;
-    private int errortopicNums;// 错题数
-    private int errortopicNums1;// 错题数
+    private int rightTopicNums;// 错题数
     private int questionAcount;//试题总数
+    private int score;//总分
+    private int scoreStandard=100;//一百分制
     private int pagePosition = 0;//当前页面位置
     private String isPerfectData = "1";// 是否完善资料0完成 1未完成
     private boolean isExma = false;// false模拟 true竞赛
     private String pattern;
     private boolean isUpload = false;
-    private String exmaTime = "15:00";//考试时间
+    private String exmaTime = "00:10";//考试时间
 
     IQuestionService questionService;
 
@@ -168,13 +167,18 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void uploadExamination(Integer eventBusMessageConstant) {
         if (eventBusMessageConstant == EventBusMessageConstant.COUNTING_SCORE) {
-            //TODO 统计
-
+            for (Question question : questions) {
+                if (question.isRight()) {
+                    rightTopicNums++;
+                }
+            }
+            score = scoreStandard / questionAcount * (rightTopicNums);
             EventBus.getDefault().post(EventBusMessageConstant.COUNTING_END);
+            //TODO 上传服务器
         }
     }
 
-    // 弹出对话框通知用户答题时间到
+    // 弹出对话框通知用户是否退出
     @Subscribe(threadMode = ThreadMode.MAIN)
     protected void showTimeOutDialog(IsTimeShowEvent isTimeShowEvent) {
         IsTimeDialog isTimeDialog = new IsTimeDialog(this, isTimeShowEvent.getType());

@@ -37,9 +37,9 @@ public class ErrorRecognition {
     @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     private Chapter chapter;
 
-    //题目所属证数ID
-    @DatabaseField()
-    private Integer cerId;
+    //题目所属证书
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
+    private Certification certification;
 
 
     public Integer getQuestsionId() {
@@ -82,12 +82,12 @@ public class ErrorRecognition {
         this.chapter = chapter;
     }
 
-    public Integer getCerId() {
-        return cerId;
+    public Certification getCertification() {
+        return certification;
     }
 
-    public void setCerId(Integer cerId) {
-        this.cerId = cerId;
+    public void setCertification(Certification certification) {
+        this.certification = certification;
     }
 
     public String getAnalysis() {
@@ -109,24 +109,12 @@ public class ErrorRecognition {
     public void copy(Question question) {
         setQuestsionId(question.getQuestsionId());
         setTitle(question.getTitle());
-        setCerId(question.getCerId());
+        setCertification(question.getCertification());
         setChapter(question.getChapter());
         setResult(question.getResult());
         setSelect(question.getSelect());
         setAnalysis(question.getAnalysis());
     }
 
-    @Override
-    public String toString() {
-        return "ErrorRecognition{" +
-                "questsionId=" + questsionId +
-                ", title='" + title + '\'' +
-                ", select='" + select + '\'' +
-                ", result='" + result + '\'' +
-                ", wrongResult='" + wrongResult + '\'' +
-                ", analysis='" + analysis + '\'' +
-                ", chapter=" + chapter +
-                ", cerId=" + cerId +
-                '}';
-    }
+
 }

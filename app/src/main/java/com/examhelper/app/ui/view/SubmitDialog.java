@@ -2,9 +2,7 @@ package com.examhelper.app.ui.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,14 +29,7 @@ public class SubmitDialog extends Dialog{
         confirm_btn.setVisibility(View.GONE);
         Button cancel_btn = (Button) findViewById(R.id.dialog_cancle);
         cancel_btn.setVisibility(View.GONE);
-        setCanceledOnTouchOutside(false);// 设置点击Dialog外部任意区域关闭Dialog
-        setOnKeyListener(new OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                dismiss();
-                return true;
-            }
-        });
+        setCanceledOnTouchOutside(true);// 设置点击Dialog外部任意区域关闭Dialog
     }
 
 }

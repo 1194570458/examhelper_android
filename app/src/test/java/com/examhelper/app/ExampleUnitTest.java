@@ -2,9 +2,10 @@ package com.examhelper.app;
 
 import org.junit.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -14,14 +15,14 @@ import java.util.Date;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("mm:ss");
-        try {
-            System.out.println(simpleDateFormat.parse("57:13").getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
+        List<String> selectList = new ArrayList<>();
+        Pattern pattern = Pattern.compile("\\w\\..+\\w");
+        Matcher matcher = pattern.matcher("A.18岁以下  B.25岁至35岁  C.35岁至45岁  D.45岁以上");
+        while (matcher.find()) {
+            selectList.add(matcher.group());
         }
-//        simpleDateFormat.
-        Date date = new Date(1000);
-        System.out.println(simpleDateFormat.format(date));
+        for (String s : selectList) {
+            System.out.println(s);
+        }
     }
 }

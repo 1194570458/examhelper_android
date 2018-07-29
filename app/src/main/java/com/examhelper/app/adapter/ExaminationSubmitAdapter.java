@@ -36,7 +36,11 @@ public class ExaminationSubmitAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View view = initView(position);
+
+        View view = views.get(position);
+        if (view == null) {
+            view = initView(position);
+        }
         container.addView(view);
         return view;
     }
@@ -45,16 +49,14 @@ public class ExaminationSubmitAdapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView(views.get(position));
-        views.remove(position);
-        System.gc();
     }
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view==object;
+        return view == object;
     }
 
-    private View initView( int position) {
+    private View initView(int position) {
         View view = mContext.getLayoutInflater().inflate(R.layout.vote_submit_viewpager_item, null);
         TextView isOne_TV = view.findViewById(R.id.activity_prepare_test_no);
         TextView title_TV = view.findViewById(R.id.activity_prepare_test_question);

@@ -5,9 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.examhelper.app.constant.DbConstant;
+import com.examhelper.app.entity.Certification;
 import com.examhelper.app.entity.Chapter;
 import com.examhelper.app.entity.ErrorRecognition;
 import com.examhelper.app.entity.Question;
+import com.examhelper.app.entity.User;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
@@ -64,6 +66,8 @@ public class QuestionsDbHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Chapter.class);
             TableUtils.createTable(connectionSource, Question.class);
             TableUtils.createTable(connectionSource, ErrorRecognition.class);
+            TableUtils.createTable(connectionSource, Certification.class);
+            TableUtils.createTable(connectionSource, User.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,6 +87,8 @@ public class QuestionsDbHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Chapter.class, true);
             TableUtils.dropTable(connectionSource, Question.class, true);
             TableUtils.dropTable(connectionSource, ErrorRecognition.class, true);
+            TableUtils.dropTable(connectionSource, Certification.class, true);
+            TableUtils.dropTable(connectionSource, User.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();

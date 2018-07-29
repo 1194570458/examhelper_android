@@ -43,8 +43,8 @@ public class SelectResultAdapter extends BaseAdapter {
 
     private void initData() {
         errorRecognitionService = new ErrorRecognitionServiceImp(rootView.getContext());
-        select = question.getSelect().split(" , ");
-        if (select.length > 0) {
+        select = question.getSelect().split(",");
+        if (question.getResult().length() > 1) {
             isMulti = true;
         }
     }
@@ -89,7 +89,7 @@ public class SelectResultAdapter extends BaseAdapter {
                     // 提交错误题表中
                     ErrorRecognition errorRecognition = new ErrorRecognition();
                     errorRecognition.copy(question);
-                    errorRecognition.setWrongResult(String.valueOf(position));
+                    errorRecognition.setWrongResult(String.valueOf(position + 1));
                     errorRecognitionService.addErrorRecognition(errorRecognition);
                 }
             }
