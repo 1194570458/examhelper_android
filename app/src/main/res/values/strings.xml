@@ -24,4 +24,12 @@
     <string name="SpecialExamination">专项考试</string>
     <string name="WrongBook">错题本</string>
     <string name="MyCollection">我的收藏</string>
+    <string name="simulation_test">模拟测验</string>
+    <string name="patterns_of_anwser">答题模式</string>
+    <string name="random_practice">随机联系</string>
+    <string name="special_test">专项考试</string>
+    <string name="my_collections">我的收藏</string>
+    <string name="wrong_topic">错题本</string>
+
+
 </resources>

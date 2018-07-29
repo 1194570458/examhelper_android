@@ -21,19 +21,19 @@ public class ErrorRecognitionServiceImp implements IErrorRecognitionService {
     }
 
     @Override
-    public void addQuestion(ErrorRecognition errorRecognition) {
+    public void addErrorRecognition(ErrorRecognition errorRecognition) {
         errorRecognitionDaoImp.insert(errorRecognition);
     }
 
 
     @Override
-    public void removeQuestion(ErrorRecognition errorRecognition) {
+    public void removeErrorRecognition(ErrorRecognition errorRecognition) {
         errorRecognitionDaoImp.delete(errorRecognition);
     }
 
 
     @Override
-    public List<ErrorRecognition> queryQuestions() {
+    public List<ErrorRecognition> queryErrorRecognition() {
         List<ErrorRecognition> errorRecognitions = errorRecognitionDaoImp.selectErrorRecognitions();
         return errorRecognitions;
     }

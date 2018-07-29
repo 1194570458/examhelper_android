@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.examhelper.app.messageevent.ChangeTVEvent;
+import com.examhelper.app.messageevent.IsTimeShowEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -42,7 +43,9 @@ public class CountdownTextView extends android.support.v7.widget.AppCompatTextVi
             public void run() {
                 if ((second--) < 0) {
                     timer.cancel();
-                    //TODO 倒时间到
+                    // 倒时间到
+                    IsTimeShowEvent isTimeShowEvent = new IsTimeShowEvent(IsTimeShowEvent.IS_TIME);
+                    EventBus.getDefault().post(isTimeShowEvent);
                 }
                 String currentTime = simpleDateFormat.format(new Date(second * 1000));
                 ChangeTVEvent changeTVEvent = new ChangeTVEvent();

@@ -52,6 +52,9 @@ public class Question implements Serializable {
     @DatabaseField(dataType = DataType.BOOLEAN)
     private boolean isCollect;
 
+    //选择是否正确
+    private boolean isRight;
+
     public Question() {
     }
 
@@ -137,17 +140,27 @@ public class Question implements Serializable {
         isDo = aDo;
     }
 
+    public boolean isRight() {
+        return isRight;
+    }
+
+    public void setRight(boolean right) {
+        isRight = right;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
                 "questsionId=" + questsionId +
                 ", title='" + title + '\'' +
-                ", select=" + select +
-                ", result=" + result +
+                ", select='" + select + '\'' +
+                ", result='" + result + '\'' +
+                ", analysis='" + analysis + '\'' +
                 ", chapter=" + chapter +
                 ", cerId=" + cerId +
                 ", isDo=" + isDo +
                 ", isCollect=" + isCollect +
+                ", isRight=" + isRight +
                 '}';
     }
 }

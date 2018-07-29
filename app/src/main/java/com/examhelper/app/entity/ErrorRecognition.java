@@ -23,7 +23,15 @@ public class ErrorRecognition {
 
     //结果选项
     @DatabaseField(canBeNull = false)
-    private Integer result;
+    private String result;
+
+    //选择错误选项
+    @DatabaseField(canBeNull = false)
+    private String wrongResult;
+
+    //解析
+    @DatabaseField(canBeNull = false)
+    private String analysis;
 
     //题目所属章节,外键
     @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
@@ -58,11 +66,11 @@ public class ErrorRecognition {
         this.select = select;
     }
 
-    public Integer getResult() {
+    public String getResult() {
         return result;
     }
 
-    public void setResult(Integer result) {
+    public void setResult(String result) {
         this.result = result;
     }
 
@@ -82,13 +90,41 @@ public class ErrorRecognition {
         this.cerId = cerId;
     }
 
+    public String getAnalysis() {
+        return analysis;
+    }
+
+    public void setAnalysis(String analysis) {
+        this.analysis = analysis;
+    }
+
+    public String getWrongResult() {
+        return wrongResult;
+    }
+
+    public void setWrongResult(String wrongResult) {
+        this.wrongResult = wrongResult;
+    }
+
+    public void copy(Question question) {
+        setQuestsionId(question.getQuestsionId());
+        setTitle(question.getTitle());
+        setCerId(question.getCerId());
+        setChapter(question.getChapter());
+        setResult(question.getResult());
+        setSelect(question.getSelect());
+        setAnalysis(question.getAnalysis());
+    }
+
     @Override
     public String toString() {
         return "ErrorRecognition{" +
                 "questsionId=" + questsionId +
                 ", title='" + title + '\'' +
-                ", select=" + select +
-                ", result=" + result +
+                ", select='" + select + '\'' +
+                ", result='" + result + '\'' +
+                ", wrongResult='" + wrongResult + '\'' +
+                ", analysis='" + analysis + '\'' +
                 ", chapter=" + chapter +
                 ", cerId=" + cerId +
                 '}';
