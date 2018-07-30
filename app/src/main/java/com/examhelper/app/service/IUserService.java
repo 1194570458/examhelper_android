@@ -7,9 +7,9 @@ import com.examhelper.app.entity.User;
  */
 
 public interface IUserService {
-    void addUser(User user);
+    void login(String userName,String password);
 
-    void removeUser(User user);
+    void logout(User user);
 
     void updateUser(User user);
 

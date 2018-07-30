@@ -2,7 +2,7 @@ package com.examhelper.app.ui.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
@@ -28,6 +28,7 @@ import com.examhelper.app.messageevent.IsTimeShowEvent;
 import com.examhelper.app.service.IQuestionService;
 import com.examhelper.app.service.imp.QuesionServiceImp;
 import com.examhelper.app.ui.view.CountdownTextView;
+import com.examhelper.app.listener.ExaminationViewPagerListener;
 import com.examhelper.app.ui.view.IsTimeDialog;
 import com.examhelper.app.ui.view.SubmitDialog;
 import com.examhelper.app.ui.view.VoteSubmitViewPager;
@@ -50,7 +51,8 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
 
     private ImageView leftIv;
     private TextView titleTv;
-    private CountdownTextView time;
+    private CountdownTextView countdownTV;
+    private LinearLayout upLayout;
     private LinearLayout collectionLayout;
     private  LinearLayout activity_prepare_test_totalLayout;
     private LinearLayout ll_time;
@@ -103,9 +105,10 @@ private  PopupWindow popupWindow;
         leftIv = (ImageView) findViewById(R.id.left);
         collectionIMG = (ImageView) findViewById(R.id.activity_prepare_test_collectionIMG);
         titleTv = (TextView) findViewById(R.id.title);
-        time = (CountdownTextView) findViewById(R.id.time);
+        countdownTV = (CountdownTextView) findViewById(R.id.cuntdown_TV);
         totalTv = (TextView) findViewById(R.id.activity_prepare_test_totalTv);
         collectionIMG = (ImageView) findViewById(R.id.activity_prepare_test_collectionIMG);
+        upLayout = (LinearLayout) findViewById(R.id.activity_prepare_test_upLayout);
         collectionLayout = (LinearLayout) findViewById(R.id.activity_prepare_test_collectionLayout);
         collectionLayout.setOnClickListener(this);
         activity_prepare_test_totalLayout=findViewById(R.id.activity_prepare_test_totalLayout);
@@ -128,15 +131,16 @@ private  PopupWindow popupWindow;
         judgeIsCollection(questions.get(0));
         //如果是模拟考试将进行考试时间倒计时
         if (isExma) {
-//            time.setTime(exmaTime);
+//            countdownTV.setTime(exmaTime);
 //            Drawable drawable1 = getBaseContext().getResources().getDrawable(
 //                    R.mipmap.ic_practice_time);
 //            drawable1.setBounds(0, 0, drawable1.getMinimumWidth(),
 //                    drawable1.getMinimumHeight());
-//            time.setVisibility(View.VISIBLE);
-//            time.setCompoundDrawables(drawable1, null, null, null);
+//            countdownTV.setVisibility(View.VISIBLE);
+//            countdownTV.setCompoundDrawables(drawable1, null, null, null);
             ll_time.setVisibility(View.VISIBLE);
-            time.setText(exmaTime);
+
+            countdownTV.setText(exmaTime);
         } else {
             // TODO 不是考试模式todo
         }
@@ -205,9 +209,9 @@ private  PopupWindow popupWindow;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void changCountdownTextView(ChangeTVEvent changeTVEvent) {
         if (changeTVEvent.getColor() != 0) {
-            time.setTextColor(changeTVEvent.getColor());
+            countdownTV.setTextColor(changeTVEvent.getColor());
         }
-        time.setText(changeTVEvent.getContentText());
+        countdownTV.setText(changeTVEvent.getContentText());
     }
 
     //改变收藏图标
@@ -232,7 +236,7 @@ private  PopupWindow popupWindow;
 
     @Override
     protected void onDestroy() {
-        time.stopTime();
+        countdownTV.stopTime();
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
@@ -240,6 +244,7 @@ private  PopupWindow popupWindow;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.activity_prepare_test_collectionLayout: {
                 //添加收藏
                 Question question = questions.get(pagePosition);
