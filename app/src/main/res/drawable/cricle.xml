@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval" android:useLevel="false">
+<stroke android:width="1dp" android:color="@color/practice_test_result_text"></stroke>
+</shape>

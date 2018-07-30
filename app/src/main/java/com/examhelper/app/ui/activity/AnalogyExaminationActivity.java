@@ -2,28 +2,32 @@ package com.examhelper.app.ui.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.examhelper.app.R;
 import com.examhelper.app.adapter.ExaminationSubmitAdapter;
+import com.examhelper.app.adapter.PopupAdapter;
 import com.examhelper.app.constant.EventBusMessageConstant;
 import com.examhelper.app.constant.IntentFlagConstant;
 import com.examhelper.app.entity.Question;
+import com.examhelper.app.listener.ExaminationViewPagerListener;
 import com.examhelper.app.messageevent.ChangeTVEvent;
 import com.examhelper.app.messageevent.IsTimeShowEvent;
 import com.examhelper.app.service.IQuestionService;
 import com.examhelper.app.service.imp.QuesionServiceImp;
 import com.examhelper.app.ui.view.CountdownTextView;
-import com.examhelper.app.listener.ExaminationViewPagerListener;
 import com.examhelper.app.ui.view.IsTimeDialog;
 import com.examhelper.app.ui.view.SubmitDialog;
 import com.examhelper.app.ui.view.VoteSubmitViewPager;
@@ -46,15 +50,17 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
 
     private ImageView leftIv;
     private TextView titleTv;
-    private CountdownTextView right;
-    private LinearLayout upLayout;
+    private CountdownTextView time;
     private LinearLayout collectionLayout;
-    private LinearLayout nextLayout;
+    private  LinearLayout activity_prepare_test_totalLayout;
+    private LinearLayout ll_time;
+    private LinearLayout ll_wrongbook;
     private TextView totalTv;
     private ImageView collectionIMG;
+    private Boolean isShowItem=true;
     VoteSubmitViewPager viewPager;
     ExaminationSubmitAdapter pagerAdapter;
-
+private  PopupWindow popupWindow;
     List<Question> questions = new ArrayList<Question>();
     private int rightTopicNums;// 错题数
     private int questionAcount;//试题总数
@@ -97,16 +103,17 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
         leftIv = (ImageView) findViewById(R.id.left);
         collectionIMG = (ImageView) findViewById(R.id.activity_prepare_test_collectionIMG);
         titleTv = (TextView) findViewById(R.id.title);
-        right = (CountdownTextView) findViewById(R.id.right);
+        time = (CountdownTextView) findViewById(R.id.time);
         totalTv = (TextView) findViewById(R.id.activity_prepare_test_totalTv);
         collectionIMG = (ImageView) findViewById(R.id.activity_prepare_test_collectionIMG);
-        upLayout = (LinearLayout) findViewById(R.id.activity_prepare_test_upLayout);
         collectionLayout = (LinearLayout) findViewById(R.id.activity_prepare_test_collectionLayout);
-        nextLayout = (LinearLayout) findViewById(R.id.activity_prepare_test_nextLayout);
         collectionLayout.setOnClickListener(this);
-        upLayout.setOnClickListener(this);
+        activity_prepare_test_totalLayout=findViewById(R.id.activity_prepare_test_totalLayout);
+        activity_prepare_test_totalLayout.setOnClickListener(this);
+        ll_wrongbook.findViewById(R.id.ll_wrongbook);
+        ll_wrongbook.setOnClickListener(this);
+        ll_time=findViewById(R.id.ll_time);
         leftIv.setOnClickListener(this);
-        nextLayout.setOnClickListener(this);
         totalTv.setText("0 /" + questionAcount);
         titleTv.setText(pattern);
         viewPager = (VoteSubmitViewPager) findViewById(R.id.vote_submit_viewpager);
@@ -121,14 +128,15 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
         judgeIsCollection(questions.get(0));
         //如果是模拟考试将进行考试时间倒计时
         if (isExma) {
-            right.setTime(exmaTime);
-            Drawable drawable1 = getBaseContext().getResources().getDrawable(
-                    R.mipmap.ic_practice_time);
-            drawable1.setBounds(0, 0, drawable1.getMinimumWidth(),
-                    drawable1.getMinimumHeight());
-            right.setVisibility(View.VISIBLE);
-            right.setCompoundDrawables(drawable1, null, null, null);
-            right.setText(exmaTime);
+//            time.setTime(exmaTime);
+//            Drawable drawable1 = getBaseContext().getResources().getDrawable(
+//                    R.mipmap.ic_practice_time);
+//            drawable1.setBounds(0, 0, drawable1.getMinimumWidth(),
+//                    drawable1.getMinimumHeight());
+//            time.setVisibility(View.VISIBLE);
+//            time.setCompoundDrawables(drawable1, null, null, null);
+            ll_time.setVisibility(View.VISIBLE);
+            time.setText(exmaTime);
         } else {
             // TODO 不是考试模式todo
         }
@@ -197,9 +205,9 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void changCountdownTextView(ChangeTVEvent changeTVEvent) {
         if (changeTVEvent.getColor() != 0) {
-            right.setTextColor(changeTVEvent.getColor());
+            time.setTextColor(changeTVEvent.getColor());
         }
-        right.setText(changeTVEvent.getContentText());
+        time.setText(changeTVEvent.getContentText());
     }
 
     //改变收藏图标
@@ -224,7 +232,7 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
 
     @Override
     protected void onDestroy() {
-        right.stopTime();
+        time.stopTime();
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
@@ -232,26 +240,6 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.activity_prepare_test_upLayout: {
-                pagePosition = pagePosition - 1;
-                //防止越界
-                if (pagePosition < 0) {
-                    pagePosition = 0;
-                    return;
-                }
-                viewPager.setCurrentItem(pagePosition);
-                break;
-            }
-            case R.id.activity_prepare_test_nextLayout: {
-                pagePosition = pagePosition + 1;
-                //防止越界
-                if (pagePosition == questionAcount) {
-                    pagePosition = questionAcount - 1;
-                    return;
-                }
-                viewPager.setCurrentItem(pagePosition);
-                break;
-            }
             case R.id.activity_prepare_test_collectionLayout: {
                 //添加收藏
                 Question question = questions.get(pagePosition);
@@ -264,8 +252,33 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
                 questionService.updateQuestion(question);
                 break;
             }
+            case R.id.ll_wrongbook:{
+                //错题本
+                break;
+            }
             case R.id.left: {
                 EventBus.getDefault().post(new IsTimeShowEvent(IsTimeShowEvent.IS_END));
+                break;
+            }
+            case R.id.activity_prepare_test_totalLayout:{
+                if(isShowItem){
+                    //显示下拉内容
+                    isShowItem=false;
+                    View view = LayoutInflater.from(this).inflate(R.layout.popup_gv, null);
+                    GridView gridView = view.findViewById(R.id.gv_show);
+                    popupWindow=new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, false);
+                    gridView.setAdapter(new PopupAdapter(this,questionAcount,viewPager,popupWindow));
+                    popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                    popupWindow.setOutsideTouchable(true);
+                    float y = activity_prepare_test_totalLayout.getY();
+                    popupWindow.showAsDropDown(activity_prepare_test_totalLayout);
+
+                }else {
+                    //关闭
+                    isShowItem=true;
+                    popupWindow.dismiss();
+                }
+
                 break;
             }
         }

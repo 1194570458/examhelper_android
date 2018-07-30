@@ -29,7 +29,7 @@ public class Question implements Serializable {
     private String result;
 
     //错误选项
-    @DatabaseField(canBeNull = false)
+    @DatabaseField()
     private String wrongSelect;
 
     @DatabaseField()

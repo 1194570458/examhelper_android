@@ -47,30 +47,31 @@
         android:orientation="horizontal"
         android:paddingRight="10dip">
 
-        <TextView
-            android:id="@+id/gps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="5dip"
-            android:layout_marginTop="8dp"
-            android:drawablePadding="3dip"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:visibility="gone" />
-
-        <com.examhelper.app.ui.view.CountdownTextView
-            android:id="@+id/wrong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dip"
-            android:layout_marginTop="8dip"
-            android:contentDescription="@string/app_name"
-            android:drawablePadding="3dip"
+        <LinearLayout
+            android:id="@+id/activity_prepare_test_totalLayout"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:visibility="gone" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/home_menu_margin_8"
+                android:src="@mipmap/ic_practice_tatal_index" />
+
+            <TextView
+                android:id="@+id/activity_prepare_test_totalTv"
+                style="@style/menu_bottom_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/home_menu_margin_8"
+                android:layout_marginTop="@dimen/home_menu_margin_5"
+                android:text="0/0" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </RelativeLayout>

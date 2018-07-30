@@ -20,4 +20,6 @@
     <color name="practice_test_result_detail_text">#ab8b28</color>
     <color name="right">#61bc31</color>
     <color name="error">#d53235</color>
+
+    <color name="whitealpha">#ceffffff</color>
 </resources>
