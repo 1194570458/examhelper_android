@@ -32,5 +32,7 @@ public class LoginToMainListener implements View.OnClickListener {
         intent.putExtra(IntentFlagConstant.IS_EXMA, true);
         intent.putExtra(IntentFlagConstant.PATTERN_TITLE, v.getContext().getResources().getString(R.string.simulation_test));
         context.startActivity(intent);
+//        Intent intent=new Intent(context, MainActivity.class);
+//        context.startActivity(intent);
     }
 }
