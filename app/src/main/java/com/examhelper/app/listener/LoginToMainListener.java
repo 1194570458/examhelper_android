@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import com.examhelper.app.R;
 import com.examhelper.app.constant.IntentFlagConstant;
 import com.examhelper.app.entity.Question;
 import com.examhelper.app.service.IQuestionService;
