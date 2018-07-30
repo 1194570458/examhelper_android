@@ -9,20 +9,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.examhelper.app.constant.HttpConstant;
+import com.examhelper.app.dao.IUserDao;
+import com.examhelper.app.dao.imp.UserDaoImp;
 import com.examhelper.app.entity.Certification;
 import com.examhelper.app.entity.Chapter;
 import com.examhelper.app.entity.Question;
 import com.examhelper.app.entity.User;
+import com.examhelper.app.messageevent.LoginEvent;
 import com.examhelper.app.service.ICertificatesService;
 import com.examhelper.app.service.IChapterService;
 import com.examhelper.app.service.IQuestionService;
-import com.examhelper.app.service.IUserService;
 import com.examhelper.app.service.imp.CertificatesServiceImp;
 import com.examhelper.app.service.imp.ChapterServiceImp;
 import com.examhelper.app.service.imp.QuesionServiceImp;
-import com.examhelper.app.service.imp.UserServiceImp;
 import com.google.gson.Gson;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,32 +36,32 @@ import java.util.List;
  * 获取试题
  * Created by Administrator on 2018/7/24.
  */
-public class GetQuestionHttp {
+public class RequestServerHttp {
     private RequestQueue requestQueue;
-    private static GetQuestionHttp getQuestionHttp;
+    private static RequestServerHttp requestServerHttp;
     IChapterService chapterService;
     IQuestionService questionService;
     ICertificatesService certificatesService;
-    IUserService userService;
+    IUserDao userDao;
 
-    private GetQuestionHttp(Context context) {
+    private RequestServerHttp(Context context) {
         chapterService = new ChapterServiceImp(context);
         questionService = new QuesionServiceImp(context);
         certificatesService = new CertificatesServiceImp(context);
-        userService = new UserServiceImp(context);
+        userDao = new UserDaoImp(context);
         requestQueue = Volley.newRequestQueue(context);
     }
 
 
-    public static GetQuestionHttp getInstance(Context context) {
-        if (getQuestionHttp == null) {
-            synchronized (GetQuestionHttp.class) {
-                if (getQuestionHttp == null) {
-                    getQuestionHttp = new GetQuestionHttp(context);
+    public static RequestServerHttp getInstance(Context context) {
+        if (requestServerHttp == null) {
+            synchronized (RequestServerHttp.class) {
+                if (requestServerHttp == null) {
+                    requestServerHttp = new RequestServerHttp(context);
                 }
             }
         }
-        return getQuestionHttp;
+        return requestServerHttp;
     }
 
 
@@ -84,6 +86,8 @@ public class GetQuestionHttp {
                         Log.d("GetQuestionHttp", "chapters:" + chapters);
                         //添加到数据库
                         chapterService.addChapters(chapters);
+                        //获取试题数据
+                        requestSynthesizes();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -101,12 +105,13 @@ public class GetQuestionHttp {
     }
 
     /**
-     * 根据本地最新章节ID获取服务器最新章节
+     * 根据本地最新章节ID获取服务器最新章节，然后通过章节ID和证书ID获取最新试题
      *
-     * @param chapterId
+     * @param proId
+     * @param cerId
      */
-    private void requestNewPropertys(final int chapterId) {
-        final String url = String.format(HttpConstant.API_NEW_PROPERTYS, chapterId);
+    public void requestNewQuestions(int proId, final int cerId) {
+        final String url = String.format(HttpConstant.API_NEW_PROPERTYS, proId);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -120,6 +125,8 @@ public class GetQuestionHttp {
                             Chapter chapter = new Chapter(jsonObject.getInt("proId"), jsonObject.getString("chapter"));
                             Log.d("GetQuestionHttp", "chapter:" + chapter);
                             chapters.add(chapter);
+                            //获取该章节试题
+                            requestSynthesizesById(chapter.getChapterId(),cerId);
                         }
                         //添加到数据库
                         chapterService.addChapters(chapters);
@@ -137,7 +144,6 @@ public class GetQuestionHttp {
             }
         });
         requestQueue.add(jsonObjectRequest);
-
     }
 
 
@@ -187,6 +193,7 @@ public class GetQuestionHttp {
         });
         requestQueue.add(jsonObjectRequest);
     }
+
 
     /**
      * 根据章节ID和证数ID获取试题
@@ -239,14 +246,14 @@ public class GetQuestionHttp {
         requestQueue.add(jsonObjectRequest);
     }
 
+
     /**
      * 登陆请求
      *
      * @param userName
      * @param password
-     * @return 0 代表成功 1代表失败
      */
-    public void requestLogin(String userName, String password){
+    public void requestLogin(String userName, String password) {
         final String url = String.format(HttpConstant.API_LOGIN, userName, password);
         final int[] status = new int[1];
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
@@ -270,14 +277,20 @@ public class GetQuestionHttp {
                                 jsonObject.getString("qqOpenid"),
                                 certification
                         );
-                        userService.addUser(user);
+                        //保存用户信息
+                        userDao.insert(user);
+                        //通知登陆成功
+                        EventBus.getDefault().post(new LoginEvent(LoginEvent.TYPE_SUCCESS, user));
                         //获取证书数据
                         requestCertificateById(certification.getCerId());
                     } else {
-                        //TODO 登陆失败todo
+                        //通知登陆失败
+                        EventBus.getDefault().post(new LoginEvent(LoginEvent.TYPE_FAILURE));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    //通知登陆失败
+                    EventBus.getDefault().post(new LoginEvent(LoginEvent.TYPE_FAILURE));
                 }
             }
         }, new Response.ErrorListener() {
@@ -285,6 +298,8 @@ public class GetQuestionHttp {
             public void onErrorResponse(VolleyError error) {
                 if (error != null) {
                     Log.e("GetQuestionHttp", error.toString());
+                    //通知登陆失败
+                    EventBus.getDefault().post(new LoginEvent(LoginEvent.TYPE_FAILURE));
                 }
             }
         });

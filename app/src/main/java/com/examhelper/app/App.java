@@ -4,9 +4,12 @@ import android.app.Application;
 import android.util.Log;
 
 import com.examhelper.app.db.QuestionsDbHelper;
-import com.examhelper.app.network.GetQuestionHttp;
+import com.examhelper.app.service.IRequestServer;
+import com.examhelper.app.service.imp.RequestServerImp;
 
 public class App extends Application {
+    IRequestServer requestServer;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -14,8 +17,8 @@ public class App extends Application {
         //初始化数据库
         QuestionsDbHelper.getInstance(this);
         //从网络获取试题
-        GetQuestionHttp getQuestionHttp=GetQuestionHttp.getInstance(this);
-        getQuestionHttp.requestPropertys();
-        getQuestionHttp.requestSynthesizes();
+        requestServer = new RequestServerImp(this);
+        requestServer.loadData();
+
     }
 }

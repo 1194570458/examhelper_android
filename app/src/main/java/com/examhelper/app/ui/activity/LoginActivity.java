@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -13,6 +14,11 @@ import android.widget.Toast;
 import com.examhelper.app.R;
 import com.examhelper.app.listener.LoginToMainListener;
 import com.examhelper.app.listener.LoginToRegisterListener;
+import com.examhelper.app.messageevent.LoginEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 
 public class LoginActivity extends Activity {
@@ -23,12 +29,15 @@ public class LoginActivity extends Activity {
     private Button btn_login;
     private TextView tv_forgetPwd;
     private TextView tv_register;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        EventBus.getDefault().register(this);
         initView();
     }
+
     private void initView() {
         etUsername = (TextInputEditText) findViewById(R.id.etUsername);
         til_login_user = (TextInputLayout) findViewById(R.id.til_login_user);
@@ -45,5 +54,17 @@ public class LoginActivity extends Activity {
                 Toast.makeText(LoginActivity.this, "暂无此功能", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    //登陆回调方法
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginCallBack(LoginEvent loginEvent) {
+        Log.d("LoginActivity", "loginEvent:" + loginEvent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }
