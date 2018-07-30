@@ -60,7 +60,6 @@ public class IsTimeDialog extends Dialog implements View.OnClickListener {
                     dismiss();
                 } else {
                     dismiss();
-                    //TODO 暂停倒时
                 }
                 break;
             }

@@ -41,12 +41,6 @@ public class CountdownTextView extends android.support.v7.widget.AppCompatTextVi
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                if ((second--) < 0) {
-                    timer.cancel();
-                    // 倒时间到
-                    IsTimeShowEvent isTimeShowEvent = new IsTimeShowEvent(IsTimeShowEvent.IS_TIME);
-                    EventBus.getDefault().post(isTimeShowEvent);
-                }
                 String currentTime = simpleDateFormat.format(new Date(second * 1000));
                 ChangeTVEvent changeTVEvent = new ChangeTVEvent();
                 if (Pattern.matches("^\\d2:\\d\\d$", currentTime)) {
@@ -55,6 +49,12 @@ public class CountdownTextView extends android.support.v7.widget.AppCompatTextVi
                 changeTVEvent.setContentText(currentTime);
                 //再主线程改变倒计时时间和颜色
                 EventBus.getDefault().post(changeTVEvent);
+                if ((second--) == 0) {
+                    timer.cancel();
+                    // 倒时间到
+                    IsTimeShowEvent isTimeShowEvent = new IsTimeShowEvent(IsTimeShowEvent.IS_TIME);
+                    EventBus.getDefault().post(isTimeShowEvent);
+                }
             }
         };
         timer.schedule(timerTask, 0, 1000);

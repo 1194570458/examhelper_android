@@ -1,6 +1,5 @@
 package com.examhelper.app.entity;
 
-import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -14,15 +13,17 @@ import java.io.Serializable;
  */
 @DatabaseTable
 public class Chapter implements Serializable{
-    //试题ID
+    //章节ID
     @DatabaseField(id = true)
-    @SerializedName("proId")
     private Integer chapterId;
 
-    //题目内容
-    @SerializedName("chapter")
+    //章节名
     @DatabaseField()
     private String chapterName;
+
+    //章节所有题目
+    @ForeignCollectionField(eager = true)
+    private ForeignCollection<Question> questions;
 
     public Chapter() {
     }
@@ -31,10 +32,6 @@ public class Chapter implements Serializable{
         this.chapterId = chapterId;
         this.chapterName = chapterName;
     }
-
-    //章节所有题目
-    @ForeignCollectionField(eager = true)
-    private ForeignCollection<Question> questions;
 
     public Integer getChapterId() {
         return chapterId;

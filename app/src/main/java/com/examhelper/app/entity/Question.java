@@ -1,6 +1,5 @@
 package com.examhelper.app.entity;
 
-import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -18,19 +17,20 @@ public class Question implements Serializable {
     private Integer questsionId;
 
     //题目内容
-    @SerializedName("title")
     @DatabaseField(canBeNull = false)
     private String title;
 
     //选项内容
-    @SerializedName("select")
     @DatabaseField(canBeNull = false)
     private String select;
 
     //结果选项
-    @SerializedName("result")
     @DatabaseField(canBeNull = false)
     private String result;
+
+    //错误选项
+    @DatabaseField(canBeNull = false)
+    private String wrongSelect;
 
     @DatabaseField()
     private String analysis;
@@ -39,10 +39,9 @@ public class Question implements Serializable {
     @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     private Chapter chapter;
 
-    //题目所属证数ID
-    @SerializedName("cerId")
-    @DatabaseField()
-    private Integer cerId;
+    //题目所属证书
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
+    private Certification certification;
 
     //是否为做过题
     @DatabaseField(dataType = DataType.BOOLEAN)
@@ -53,19 +52,20 @@ public class Question implements Serializable {
     private boolean isCollect;
 
     //选择是否正确
-    private boolean isRight;
+    @DatabaseField(dataType = DataType.BOOLEAN)
+    private boolean isWrong;
 
     public Question() {
     }
 
-    public Question(Integer questsionId, String title, String select, String result, String analysis, Chapter chapter, Integer cerId) {
+    public Question(Integer questsionId, String title, String select, String result, String analysis, Chapter chapter, Certification certification) {
         this.questsionId = questsionId;
         this.title = title;
         this.select = select;
         this.result = result;
         this.analysis = analysis;
         this.chapter = chapter;
-        this.cerId = cerId;
+        this.certification = certification;
     }
 
     public Integer getQuestsionId() {
@@ -108,12 +108,12 @@ public class Question implements Serializable {
         this.chapter = chapter;
     }
 
-    public Integer getCerId() {
-        return cerId;
+    public Certification getCertification() {
+        return certification;
     }
 
-    public void setCerId(Integer cerId) {
-        this.cerId = cerId;
+    public void setCertification(Certification certification) {
+        this.certification = certification;
     }
 
     public String getAnalysis() {
@@ -140,12 +140,20 @@ public class Question implements Serializable {
         isDo = aDo;
     }
 
-    public boolean isRight() {
-        return isRight;
+    public boolean isWrong() {
+        return isWrong;
     }
 
-    public void setRight(boolean right) {
-        isRight = right;
+    public void setWrong(boolean wrong) {
+        isWrong = wrong;
+    }
+
+    public String getWrongSelect() {
+        return wrongSelect;
+    }
+
+    public void setWrongSelect(String wrongSelect) {
+        this.wrongSelect = wrongSelect;
     }
 
     @Override
@@ -155,12 +163,13 @@ public class Question implements Serializable {
                 ", title='" + title + '\'' +
                 ", select='" + select + '\'' +
                 ", result='" + result + '\'' +
+                ", wrongSelect='" + wrongSelect + '\'' +
                 ", analysis='" + analysis + '\'' +
                 ", chapter=" + chapter +
-                ", cerId=" + cerId +
+                ", certification=" + certification +
                 ", isDo=" + isDo +
                 ", isCollect=" + isCollect +
-                ", isRight=" + isRight +
+                ", isWrong=" + isWrong +
                 '}';
     }
 }

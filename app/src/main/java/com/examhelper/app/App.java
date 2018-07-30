@@ -14,6 +14,8 @@ public class App extends Application {
         //初始化数据库
         QuestionsDbHelper.getInstance(this);
         //从网络获取试题
-        GetQuestionHttp.getInstance(this).getData();
+        GetQuestionHttp getQuestionHttp=GetQuestionHttp.getInstance(this);
+        getQuestionHttp.requestPropertys();
+        getQuestionHttp.requestSynthesizes();
     }
 }

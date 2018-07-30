@@ -60,7 +60,7 @@
             android:visibility="gone" />
 
         <com.examhelper.app.ui.view.CountdownTextView
-            android:id="@+id/right"
+            android:id="@+id/wrong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dip"
