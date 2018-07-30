@@ -46,7 +46,7 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
 
     private ImageView leftIv;
     private TextView titleTv;
-    private CountdownTextView right;
+    private CountdownTextView countdownTV;
     private LinearLayout upLayout;
     private LinearLayout collectionLayout;
     private LinearLayout nextLayout;
@@ -97,7 +97,7 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
         leftIv = (ImageView) findViewById(R.id.left);
         collectionIMG = (ImageView) findViewById(R.id.activity_prepare_test_collectionIMG);
         titleTv = (TextView) findViewById(R.id.title);
-        right = (CountdownTextView) findViewById(R.id.right);
+        countdownTV = (CountdownTextView) findViewById(R.id.cuntdown_TV);
         totalTv = (TextView) findViewById(R.id.activity_prepare_test_totalTv);
         collectionIMG = (ImageView) findViewById(R.id.activity_prepare_test_collectionIMG);
         upLayout = (LinearLayout) findViewById(R.id.activity_prepare_test_upLayout);
@@ -121,14 +121,14 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
         judgeIsCollection(questions.get(0));
         //如果是模拟考试将进行考试时间倒计时
         if (isExma) {
-            right.setTime(exmaTime);
+            countdownTV.setTime(exmaTime);
             Drawable drawable1 = getBaseContext().getResources().getDrawable(
                     R.mipmap.ic_practice_time);
             drawable1.setBounds(0, 0, drawable1.getMinimumWidth(),
                     drawable1.getMinimumHeight());
-            right.setVisibility(View.VISIBLE);
-            right.setCompoundDrawables(drawable1, null, null, null);
-            right.setText(exmaTime);
+            countdownTV.setVisibility(View.VISIBLE);
+            countdownTV.setCompoundDrawables(drawable1, null, null, null);
+            countdownTV.setText(exmaTime);
         } else {
             // TODO 不是考试模式todo
         }
@@ -197,9 +197,9 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void changCountdownTextView(ChangeTVEvent changeTVEvent) {
         if (changeTVEvent.getColor() != 0) {
-            right.setTextColor(changeTVEvent.getColor());
+            countdownTV.setTextColor(changeTVEvent.getColor());
         }
-        right.setText(changeTVEvent.getContentText());
+        countdownTV.setText(changeTVEvent.getContentText());
     }
 
     //改变收藏图标
@@ -224,7 +224,7 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
 
     @Override
     protected void onDestroy() {
-        right.stopTime();
+        countdownTV.stopTime();
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
