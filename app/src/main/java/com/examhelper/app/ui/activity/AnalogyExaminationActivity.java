@@ -168,7 +168,7 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     public void uploadExamination(Integer eventBusMessageConstant) {
         if (eventBusMessageConstant == EventBusMessageConstant.COUNTING_SCORE) {
             for (Question question : questions) {
-                if (question.isRight()) {
+                if (question.isWrong()) {
                     rightTopicNums++;
                 }
             }

@@ -28,6 +28,10 @@ public class Question implements Serializable {
     @DatabaseField(canBeNull = false)
     private String result;
 
+    //错误选项
+    @DatabaseField(canBeNull = false)
+    private String wrongSelect;
+
     @DatabaseField()
     private String analysis;
 
@@ -48,7 +52,8 @@ public class Question implements Serializable {
     private boolean isCollect;
 
     //选择是否正确
-    private boolean isRight;
+    @DatabaseField(dataType = DataType.BOOLEAN)
+    private boolean isWrong;
 
     public Question() {
     }
@@ -135,12 +140,20 @@ public class Question implements Serializable {
         isDo = aDo;
     }
 
-    public boolean isRight() {
-        return isRight;
+    public boolean isWrong() {
+        return isWrong;
     }
 
-    public void setRight(boolean right) {
-        isRight = right;
+    public void setWrong(boolean wrong) {
+        isWrong = wrong;
+    }
+
+    public String getWrongSelect() {
+        return wrongSelect;
+    }
+
+    public void setWrongSelect(String wrongSelect) {
+        this.wrongSelect = wrongSelect;
     }
 
     @Override
@@ -150,12 +163,13 @@ public class Question implements Serializable {
                 ", title='" + title + '\'' +
                 ", select='" + select + '\'' +
                 ", result='" + result + '\'' +
+                ", wrongSelect='" + wrongSelect + '\'' +
                 ", analysis='" + analysis + '\'' +
                 ", chapter=" + chapter +
-                ", certificates=" + certification +
+                ", certification=" + certification +
                 ", isDo=" + isDo +
                 ", isCollect=" + isCollect +
-                ", isRight=" + isRight +
+                ", isWrong=" + isWrong +
                 '}';
     }
 }
