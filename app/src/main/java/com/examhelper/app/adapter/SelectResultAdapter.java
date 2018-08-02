@@ -91,6 +91,7 @@ public class SelectResultAdapter extends BaseAdapter {
                 }
             }
         });
+
         return view;
     }
 
