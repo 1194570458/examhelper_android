@@ -63,6 +63,7 @@ public class QuestionDaoImp implements IQuestionDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return queryQuestion;
     }
 
