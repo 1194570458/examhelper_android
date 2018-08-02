@@ -2,21 +2,12 @@ package com.examhelper.app.listener;
 
 import android.app.Activity;
 import android.support.design.widget.TextInputEditText;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.examhelper.app.constant.HttpConstant;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.examhelper.app.network.RequestServerHttp;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,38 +67,8 @@ public class RegisterListener implements View.OnClickListener {
             }
         }
         //发起注册请求
-        mRequsetQueue = Volley.newRequestQueue(activity);
         String params = "{\"username\":\"%s\",\"password\":\"%s\",\"cerId\":%s}";
         String s = String.format(params, etUsernames, register_firstPasswords, carId);
-        JsonObjectRequest jsonObjectRequest = null;
-        try {
-            jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, HttpConstant.API_REGISTER, new JSONObject(s), new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Log.e(TAG, "onResponse: " + response.toString());
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(response.toString());
-                        String msg = jsonObject.getString("msg");
-                        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show();
-                        if ("成功".equals(msg)) {
-                            activity.finish();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d(TAG, "onErrorResponse: " + error.toString());
-                    Toast.makeText(activity, "网络错误", Toast.LENGTH_LONG).show();
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        mRequsetQueue.add(jsonObjectRequest);
-        mRequsetQueue.start();
+        RequestServerHttp.getInstance(activity).requestRegister(s);
     }
 }
