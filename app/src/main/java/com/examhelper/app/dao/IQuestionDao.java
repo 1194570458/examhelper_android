@@ -52,5 +52,9 @@ public interface IQuestionDao {
      */
     List<Question> selectCollectedQuestion();
 
+    /**
+     * 查询做错题
+     * @return
+     */
     List<Question> selectErrorQuesttions();
 }

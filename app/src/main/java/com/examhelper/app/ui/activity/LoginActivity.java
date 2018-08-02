@@ -1,6 +1,7 @@
 package com.examhelper.app.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.examhelper.app.R;
+import com.examhelper.app.constant.IntentFlagConstant;
+import com.examhelper.app.entity.User;
 import com.examhelper.app.listener.LoginToMainListener;
 import com.examhelper.app.listener.LoginToRegisterListener;
 import com.examhelper.app.messageevent.LoginEvent;
@@ -29,13 +32,19 @@ public class LoginActivity extends Activity {
     private Button btn_login;
     private TextView tv_forgetPwd;
     private TextView tv_register;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         EventBus.getDefault().register(this);
+        initData();
         initView();
+    }
+
+    private void initData() {
+        user = (User) getIntent().getSerializableExtra(IntentFlagConstant.REGISTER_BACK_USER);
     }
 
     private void initView() {
@@ -54,12 +63,23 @@ public class LoginActivity extends Activity {
                 Toast.makeText(LoginActivity.this, "暂无此功能", Toast.LENGTH_SHORT).show();
             }
         });
+        if (user != null) {
+            etUsername.setText(user.getUsername());
+            etPassword.setText(user.getPassword());
+        }
     }
 
     //登陆回调方法
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginCallBack(LoginEvent loginEvent) {
         Log.d("LoginActivity", "loginEvent:" + loginEvent);
+        if (loginEvent.getType() == 0) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            LoginActivity.this.finish();
+        } else {
+            Toast.makeText(this, "登陆失败", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

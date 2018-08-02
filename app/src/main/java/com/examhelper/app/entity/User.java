@@ -145,4 +145,20 @@ public class User {
     public void setCertification(Certification certification) {
         this.certification = certification;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", createDate='" + createDate + '\'' +
+                ", status=" + status +
+                ", wecharOpenid='" + wecharOpenid + '\'' +
+                ", qqNumber='" + qqNumber + '\'' +
+                ", qqOpenid='" + qqOpenid + '\'' +
+                ", certification=" + certification +
+                '}';
+    }
 }

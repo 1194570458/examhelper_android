@@ -40,4 +40,12 @@ public class RegisterEvent {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterEvent{" +
+                "type=" + type +
+                ", user=" + user +
+                '}';
+    }
 }
