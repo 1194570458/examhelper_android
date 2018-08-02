@@ -19,6 +19,5 @@ public class App extends Application {
         //从网络获取试题
         requestServer = new RequestServerImp(this);
         requestServer.loadData();
-        //陈鸡儿
     }
 }

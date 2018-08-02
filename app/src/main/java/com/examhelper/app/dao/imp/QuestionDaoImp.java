@@ -37,7 +37,6 @@ public class QuestionDaoImp implements IQuestionDao {
     }
 
 
-
     @Override
     public void delete(Question question) {
         try {
@@ -88,5 +87,16 @@ public class QuestionDaoImp implements IQuestionDao {
             e.printStackTrace();
         }
         return questionList;
+    }
+
+    @Override
+    public List<Question> selectErrorQuesttions() {
+        List<Question> questions = null;
+        try {
+            questions = questionsDao.queryForEq("isWrong", true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return questions;
     }
 }

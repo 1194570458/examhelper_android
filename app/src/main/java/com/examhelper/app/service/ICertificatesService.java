@@ -2,16 +2,23 @@ package com.examhelper.app.service;
 
 import com.examhelper.app.entity.Certification;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2018/7/29.
  */
 
 public interface ICertificatesService {
-    void addCertificates(Certification certification);
+    void addCertificate(Certification certification);
 
-    void removeCertificates(Certification certification);
+    void addCertificates(List<Certification> certifications);
 
-    void updateCertificates(Certification certification);
+    void removeCertificate(Certification certification);
 
-    Certification queryCertificates();
+    void updateCertificate(Certification certification);
+
+    Certification queryCertificate(int id);
+
+    List<Certification> queryCertificates();
+
 }

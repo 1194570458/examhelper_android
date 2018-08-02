@@ -23,4 +23,6 @@ public interface IQuestionService {
     List<Question> queryAllQuestions();
 
     List<Question> queryCollectedQuestion();
+
+    List<Question> queryErrorQuestion();
 }

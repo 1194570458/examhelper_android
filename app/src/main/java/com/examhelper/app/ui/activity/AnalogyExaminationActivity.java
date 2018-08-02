@@ -52,20 +52,22 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     private TextView titleTv;
     private CountdownTextView countdownTV;
     private LinearLayout collectionLayout;
-    private  LinearLayout activity_prepare_test_totalLayout;
+    private LinearLayout activity_prepare_test_totalLayout;
     private LinearLayout ll_time;
     private LinearLayout ll_wrongbook;
     private TextView totalTv;
     private ImageView collectionIMG;
-    private Boolean isShowItem=true;
-    VoteSubmitViewPager viewPager;
-    ExaminationSubmitAdapter pagerAdapter;
-private  PopupWindow popupWindow;
+    private Boolean isShowItem = true;
+    private   VoteSubmitViewPager viewPager;
+    private PopupWindow popupWindow;
+    private  ExaminationSubmitAdapter pagerAdapter;
+
+
     List<Question> questions = new ArrayList<Question>();
     private int rightTopicNums;// 错题数
     private int questionAcount;//试题总数
     private int score;//总分
-    private int scoreStandard=100;//一百分制
+    private int scoreStandard = 100;//一百分制
     private int pagePosition = 0;//当前页面位置
     private String isPerfectData = "1";// 是否完善资料0完成 1未完成
     private boolean isExma = false;// false模拟 true竞赛
@@ -74,7 +76,6 @@ private  PopupWindow popupWindow;
     private String exmaTime = "00:10";//考试时间
 
     IQuestionService questionService;
-
     Dialog submitDialog;
 
 
@@ -108,11 +109,11 @@ private  PopupWindow popupWindow;
         collectionIMG = (ImageView) findViewById(R.id.activity_prepare_test_collectionIMG);
         collectionLayout = (LinearLayout) findViewById(R.id.activity_prepare_test_collectionLayout);
         collectionLayout.setOnClickListener(this);
-        activity_prepare_test_totalLayout=findViewById(R.id.activity_prepare_test_totalLayout);
+        activity_prepare_test_totalLayout = findViewById(R.id.activity_prepare_test_totalLayout);
         activity_prepare_test_totalLayout.setOnClickListener(this);
-        ll_wrongbook=findViewById(R.id.ll_wrongbook);
+        ll_wrongbook = findViewById(R.id.ll_wrongbook);
         ll_wrongbook.setOnClickListener(this);
-        ll_time=findViewById(R.id.ll_time);
+        ll_time = findViewById(R.id.ll_time);
 
         leftIv.setOnClickListener(this);
         totalTv.setText("0 /" + questionAcount);
@@ -255,7 +256,7 @@ private  PopupWindow popupWindow;
                 questionService.updateQuestion(question);
                 break;
             }
-            case R.id.ll_wrongbook:{
+            case R.id.ll_wrongbook: {
                 //错题本
 
                 break;
@@ -264,22 +265,22 @@ private  PopupWindow popupWindow;
                 EventBus.getDefault().post(new IsTimeShowEvent(IsTimeShowEvent.IS_END));
                 break;
             }
-            case R.id.activity_prepare_test_totalLayout:{
-                if(isShowItem){
+            case R.id.activity_prepare_test_totalLayout: {
+                if (isShowItem) {
                     //显示下拉内容
-                    isShowItem=false;
+                    isShowItem = false;
                     View view = LayoutInflater.from(this).inflate(R.layout.popup_gv, null);
                     GridView gridView = view.findViewById(R.id.gv_show);
-                    popupWindow=new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, false);
-                    gridView.setAdapter(new PopupAdapter(this,questionAcount,viewPager,popupWindow));
+                    popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, false);
+                    gridView.setAdapter(new PopupAdapter(this, questionAcount, viewPager, popupWindow));
                     popupWindow.setBackgroundDrawable(new BitmapDrawable());
                     popupWindow.setOutsideTouchable(true);
                     float y = activity_prepare_test_totalLayout.getY();
                     popupWindow.showAsDropDown(activity_prepare_test_totalLayout);
 
-                }else {
+                } else {
                     //关闭
-                    isShowItem=true;
+                    isShowItem = true;
                     popupWindow.dismiss();
                 }
 
