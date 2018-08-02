@@ -62,7 +62,6 @@ public class QuesionServiceImp implements IQuestionService {
 
     @Override
     public List<Question> queryErrorQuestion() {
-        questionDaoImp.selectErrorQuesttions();
-        return null;
+        return questionDaoImp.selectErrorQuesttions();
     }
 }
