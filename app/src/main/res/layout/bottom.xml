@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="center"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <ImageView
@@ -57,7 +58,7 @@
             android:layout_marginBottom="@dimen/home_menu_margin_8"
             android:layout_marginTop="@dimen/home_menu_margin_5"
             android:textSize="17sp"
-            android:text="121"
+            android:text="15:00"
             android:visibility="visible" />
     </LinearLayout>
 

@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.examhelper.app.messageevent.ChangeTVEvent;
-import com.examhelper.app.messageevent.IsTimeShowEvent;
+import com.examhelper.app.messageevent.NotifyBackDialogEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -52,8 +52,8 @@ public class CountdownTextView extends android.support.v7.widget.AppCompatTextVi
                 if ((second--) == 0) {
                     timer.cancel();
                     // 倒时间到
-                    IsTimeShowEvent isTimeShowEvent = new IsTimeShowEvent(IsTimeShowEvent.IS_TIME);
-                    EventBus.getDefault().post(isTimeShowEvent);
+                    NotifyBackDialogEvent notifyBackDialogEvent = new NotifyBackDialogEvent(NotifyBackDialogEvent.IS_TIME);
+                    EventBus.getDefault().post(notifyBackDialogEvent);
                 }
             }
         };

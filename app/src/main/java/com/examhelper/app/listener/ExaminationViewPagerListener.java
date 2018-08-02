@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
  * Created by Administrator on 2018/7/28.
  */
 
-public class ExaminationViewPagerListener implements ViewPager.OnPageChangeListener {
+public abstract class ExaminationViewPagerListener implements ViewPager.OnPageChangeListener {
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
