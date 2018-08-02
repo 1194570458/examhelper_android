@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_wrongtitle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/main_bg"
+        android:gravity="center"
+        android:text="我的错题"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp">
+
+
+    </TextView>
+
+    <ListView
+        android:id="@+id/lv_wrongbook"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_wrongtitle"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:cacheColorHint="#00000000"
+        android:divider="@color/view_manager"
+        android:dividerHeight="0.5sp"
+        android:footerDividersEnabled="false"
+        android:gravity="center"
+        android:listSelector="#00000000"
+        android:scrollbars="none" />
+
+</RelativeLayout>

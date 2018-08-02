@@ -7,6 +7,8 @@
     <color name="colorWhite">#ffffff</color>
     <!-- 导航栏 -->
 
+    <color name="my_error_question_text_black">#333333</color>
+    <color name="view_manager">#e3e3e3</color>
 
     <color name="white">#FFFFFFFF</color>
     <color name="main_bg">#288df5</color>

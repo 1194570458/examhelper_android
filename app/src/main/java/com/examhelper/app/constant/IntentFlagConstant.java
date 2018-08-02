@@ -9,4 +9,8 @@ public class IntentFlagConstant {
     public static final String PATTERN_TITLE = "PATTERN_TITLE";//模式标题
     public static final String REGISTER_BACK_USER = "user";//存放用户信息
 
+    public static final String GET_WRONG_QUESTIONS = "ERROR_QUESTIONS";//获取错误的试题集
+    public static final String GET_WRONG_POSITION = "ERROR_QUESTIONS_POSITION";//获取错误的试题集位置
+
+
 }
