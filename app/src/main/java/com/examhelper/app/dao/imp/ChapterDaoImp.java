@@ -66,13 +66,13 @@ public class ChapterDaoImp implements IChapterDao {
     }
 
     @Override
-    public long queryCount() {
-        long count = 0;
+    public int queryLastId() {
+        int proId = 0;
         try {
-            count = characterDao.queryBuilder().countOf();
+            proId = characterDao.queryBuilder().orderBy("chapterId",false).queryForFirst().getChapterId();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return count;
+        return proId;
     }
 }

@@ -28,7 +28,7 @@ public class ChapterServiceImp implements IChapterService {
     @Override
     public void addChapters(List<Chapter> chapters) {
         for (Chapter chapter : chapters) {
-            addChapter(chapter);
+            chapterDaoImp.insert(chapter);
         }
     }
 
@@ -49,7 +49,7 @@ public class ChapterServiceImp implements IChapterService {
     }
 
     @Override
-    public long queryCount() {
-        return chapterDaoImp.queryCount();
+    public int queryLastId() {
+        return chapterDaoImp.queryLastId();
     }
 }

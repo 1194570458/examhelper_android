@@ -7,6 +7,8 @@ import com.examhelper.app.dao.imp.CertificatesDaoImp;
 import com.examhelper.app.entity.Certification;
 import com.examhelper.app.service.ICertificatesService;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2018/7/29.
  */
@@ -20,24 +22,36 @@ public class CertificatesServiceImp implements ICertificatesService {
 
 
     @Override
-    public void addCertificates(Certification certification) {
+    public void addCertificate(Certification certification) {
         certificatesDao.insert(certification);
     }
 
     @Override
-    public void removeCertificates(Certification certification) {
+    public void addCertificates(List<Certification> certifications) {
+        for (Certification certification : certifications) {
+            certificatesDao.insert(certification);
+        }
+    }
+
+    @Override
+    public void removeCertificate(Certification certification) {
         certificatesDao.delete(certification);
 
     }
 
     @Override
-    public void updateCertificates(Certification certification) {
+    public void updateCertificate(Certification certification) {
         certificatesDao.update(certification);
 
     }
 
     @Override
-    public Certification queryCertificates() {
-        return certificatesDao.select();
+    public Certification queryCertificate(int id) {
+        return certificatesDao.selectById(id);
+    }
+
+    @Override
+    public List<Certification> queryCertificates() {
+        return certificatesDao.selectAll();
     }
 }

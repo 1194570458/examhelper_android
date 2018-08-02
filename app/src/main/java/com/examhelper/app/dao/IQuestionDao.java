@@ -51,4 +51,6 @@ public interface IQuestionDao {
      * @return
      */
     List<Question> selectCollectedQuestion();
+
+    List<Question> selectErrorQuesttions();
 }

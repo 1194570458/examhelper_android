@@ -5,10 +5,10 @@ import android.content.Context;
 import com.examhelper.app.dao.ICertificatesDao;
 import com.examhelper.app.db.QuestionsDbHelper;
 import com.examhelper.app.entity.Certification;
-import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/7/29.
@@ -31,12 +31,12 @@ public class CertificatesDaoImp implements ICertificatesDao {
     public void insert(Certification certification) {
         try {
             //清空Certificates表，只保留一个证书数据
-            certificatesDao.deleteBuilder().reset();
             certificatesDao.createOrUpdate(certification);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void delete(Certification certification) {
@@ -56,15 +56,26 @@ public class CertificatesDaoImp implements ICertificatesDao {
         }
     }
 
+
     @Override
-    public Certification select() {
-        CloseableIterator<Certification> iterator = certificatesDao.iterator();
+    public Certification selectById(int id) {
         Certification certification = null;
         try {
-            certification = iterator.first();
+            certification = certificatesDao.queryForId(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return certification;
+    }
+
+    @Override
+    public List<Certification> selectAll() {
+        List<Certification> certifications = null;
+        try {
+            certifications = certificatesDao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return certifications;
     }
 }

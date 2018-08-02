@@ -109,6 +109,5 @@ public class RegisterListener implements View.OnClickListener {
         }
         mRequsetQueue.add(jsonObjectRequest);
         mRequsetQueue.start();
-
     }
 }

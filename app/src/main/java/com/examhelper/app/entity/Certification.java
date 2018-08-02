@@ -4,12 +4,14 @@ import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2018/7/29.
  */
 
 @DatabaseTable
-public class Certification {
+public class Certification implements Serializable{
     //证数ID
     @SerializedName("cerId")
     @DatabaseField(id = true,canBeNull = false)

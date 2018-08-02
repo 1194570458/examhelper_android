@@ -9,6 +9,7 @@ import com.examhelper.app.entity.Chapter;
 public interface IChapterDao {
     /**
      * 更新或者插入
+     *
      * @param chapter
      */
     void insert(Chapter chapter);
@@ -16,23 +17,26 @@ public interface IChapterDao {
 
     /**
      * 删除
+     *
      * @param chapter
      */
     void delete(Chapter chapter);
 
     /**
      * 更新
+     *
      * @param chapter
      */
     void update(Chapter chapter);
 
     /**
      * 根据主键查询
+     *
      * @param chapterId
      * @return
      */
     Chapter selectChapter(int chapterId);
 
 
-    long queryCount();
+    int queryLastId();
 }

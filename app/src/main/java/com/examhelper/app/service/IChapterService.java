@@ -20,5 +20,5 @@ public interface IChapterService {
 
     Chapter queryChapter(int chapterId);
 
-    long queryCount();
+    int queryLastId();
 }

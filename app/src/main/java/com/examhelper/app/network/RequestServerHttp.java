@@ -1,14 +1,18 @@
 package com.examhelper.app.network;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.examhelper.app.constant.HttpConstant;
+import com.examhelper.app.constant.SharePreferencesConstant;
 import com.examhelper.app.dao.IUserDao;
 import com.examhelper.app.dao.imp.UserDaoImp;
 import com.examhelper.app.entity.Certification;
@@ -16,6 +20,7 @@ import com.examhelper.app.entity.Chapter;
 import com.examhelper.app.entity.Question;
 import com.examhelper.app.entity.User;
 import com.examhelper.app.messageevent.LoginEvent;
+import com.examhelper.app.messageevent.RegisterEvent;
 import com.examhelper.app.service.ICertificatesService;
 import com.examhelper.app.service.IChapterService;
 import com.examhelper.app.service.IQuestionService;
@@ -30,7 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 获取试题
@@ -43,8 +50,10 @@ public class RequestServerHttp {
     IQuestionService questionService;
     ICertificatesService certificatesService;
     IUserDao userDao;
+    SharedPreferences sharedPreferences;
 
     private RequestServerHttp(Context context) {
+        sharedPreferences = context.getSharedPreferences(SharePreferencesConstant.APP_INIT_SP_NAME, Context.MODE_PRIVATE);
         chapterService = new ChapterServiceImp(context);
         questionService = new QuesionServiceImp(context);
         certificatesService = new CertificatesServiceImp(context);
@@ -75,6 +84,7 @@ public class RequestServerHttp {
                 Log.d("GetQuestionHttp", "API:" + HttpConstant.API_ALL_PROPERTYS + ":response:" + response);
                 try {
                     if (response.getInt("code") == 0) {
+                        sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, true).commit();
                         List<Chapter> chapters = new ArrayList<>();
                         JSONArray data = response.getJSONArray("data");
                         for (int i = 0; i < data.length(); i++) {
@@ -88,14 +98,18 @@ public class RequestServerHttp {
                         chapterService.addChapters(chapters);
                         //获取试题数据
                         requestSynthesizes();
+                    } else {
+                        sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, false).commit();
                     }
                 } catch (JSONException e) {
+                    sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, false).commit();
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, false).commit();
                 if (error != null) {
                     Log.e("GetQuestionHttp", error.toString());
                 }
@@ -126,7 +140,7 @@ public class RequestServerHttp {
                             Log.d("GetQuestionHttp", "chapter:" + chapter);
                             chapters.add(chapter);
                             //获取该章节试题
-                            requestSynthesizesById(chapter.getChapterId(),cerId);
+                            requestSynthesizesById(chapter.getChapterId(), cerId);
                         }
                         //添加到数据库
                         chapterService.addChapters(chapters);
@@ -157,6 +171,7 @@ public class RequestServerHttp {
                 Log.d("GetQuestionHttp", "API:" + HttpConstant.API_ALL_SYNTHESIZES + ":response:" + response);
                 try {
                     if (response.getInt("code") == 0) {
+                        sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, true).commit();
                         JSONArray data = response.getJSONArray("data");
                         List<Question> questions = new ArrayList<>();
                         for (int i = 0; i < data.length(); i++) {
@@ -178,14 +193,18 @@ public class RequestServerHttp {
                             questions.add(question);
                         }
                         questionService.addQuestions(questions);
+                    } else {
+                        sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, false).commit();
                     }
                 } catch (JSONException e) {
+                    sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, false).commit();
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, false).commit();
                 if (error != null) {
                     Log.e("GetQuestionHttp", error.toString());
                 }
@@ -248,6 +267,119 @@ public class RequestServerHttp {
 
 
     /**
+     * 获取所有证书数据
+     */
+    public void requestCertificates() {
+        final String url = HttpConstant.API_CERTIFICATIONS;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("GetQuestionHttp", "API:" + url + ":response:" + response);
+                try {
+                    if (response.getInt("code") == 0) {
+                        sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, true).commit();
+                        JSONArray data = response.getJSONArray("data");
+                        List<Certification> certifications = new ArrayList<>();
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject = data.getJSONObject(i);
+                            Certification certification = new Gson().fromJson(jsonObject.toString(), Certification.class);
+                            certifications.add(certification);
+                            Log.d("RequestServerHttp", "certification:" + certification);
+                        }
+                        certificatesService.addCertificates(certifications);
+                    } else {
+                        sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, false).commit();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, false).commit();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                sharedPreferences.edit().putBoolean(SharePreferencesConstant.SERVER_IS_INIT_SERVER_KEY, false).commit();
+                if (error != null) {
+                    Log.e("GetQuestionHttp", error.toString());
+                }
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    /**
+     * 用户注册
+     *
+     * @param userName
+     * @param password
+     * @param cerId
+     */
+    public void requestLogin(final String userName, final String password, final String cerId) {
+        final String url = HttpConstant.API_REGISTER;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST, url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("GetQuestionHttp", "API:" + url + ":response:" + response);
+                        try {
+                            if (response.getInt("code") == 0) {
+                                JSONObject jsonObject = response.getJSONObject("data");
+                                Certification certification = new Certification();
+                                certification.setCerId(jsonObject.getInt("cerId"));
+                                User user = new User(
+                                        jsonObject.getInt("userId"),
+                                        jsonObject.getString("username"),
+                                        jsonObject.getString("password"),
+                                        jsonObject.getInt("role"),
+                                        jsonObject.getString("createDate"),
+                                        jsonObject.getInt("status"),
+                                        jsonObject.getString("wecharOpenid"),
+                                        jsonObject.getString("qqNumber"),
+                                        jsonObject.getString("qqOpenid"),
+                                        certification
+                                );
+                                //保存用户信息
+                                userDao.insert(user);
+                                //通知注册成功
+                                EventBus.getDefault().post(new RegisterEvent(RegisterEvent.TYPE_SUCCESS,user));
+                            } else {
+                                //通知注册失败
+                                EventBus.getDefault().post(new RegisterEvent(RegisterEvent.TYPE_FAILURE));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            //通知注册失败
+                            EventBus.getDefault().post(new RegisterEvent(RegisterEvent.TYPE_FAILURE));
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error != null) {
+                    Log.e("GetQuestionHttp", error.toString());
+                    //通知注册失败
+                    EventBus.getDefault().post(new RegisterEvent(RegisterEvent.TYPE_FAILURE));
+                }
+            }
+        }) {
+            //传递参数
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("username",userName);
+                map.put("password",password);
+                map.put("cerId",cerId);
+                return map;
+            }
+        };
+        requestQueue.add(jsonObjectRequest);
+    }
+
+
+    /**
      * 登陆请求
      *
      * @param userName
@@ -281,8 +413,6 @@ public class RequestServerHttp {
                         userDao.insert(user);
                         //通知登陆成功
                         EventBus.getDefault().post(new LoginEvent(LoginEvent.TYPE_SUCCESS, user));
-                        //获取证书数据
-                        requestCertificateById(certification.getCerId());
                     } else {
                         //通知登陆失败
                         EventBus.getDefault().post(new LoginEvent(LoginEvent.TYPE_FAILURE));
@@ -306,38 +436,5 @@ public class RequestServerHttp {
         requestQueue.add(jsonObjectRequest);
     }
 
-    /**
-     * 根据证书ID获取证书
-     *
-     * @param cerId
-     */
-    private void requestCertificateById(int cerId) {
-        final String url = String.format(HttpConstant.API_CERTIFICATION, cerId);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d("GetQuestionHttp", "API:" + url + ":response:" + response);
-                try {
-                    if (response.getInt("code") == 0) {
-                        JSONObject data = response.getJSONObject("data");
-                        Certification certification = new Gson().fromJson(data.toString(), Certification.class);
-                        certificatesService.addCertificates(certification);
-                    } else {
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error != null) {
-                    Log.e("GetQuestionHttp", error.toString());
-                }
-            }
-        });
-        requestQueue.add(jsonObjectRequest);
-    }
 
 }
