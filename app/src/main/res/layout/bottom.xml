@@ -57,7 +57,6 @@
             android:layout_marginBottom="@dimen/home_menu_margin_8"
             android:layout_marginTop="@dimen/home_menu_margin_5"
             android:textSize="17sp"
-            android:text="121"
             android:visibility="visible" />
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.examhelper.app.ui.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.examhelper.app.R;
 import com.examhelper.app.adapter.ExaminationSubmitAdapter;
@@ -37,6 +39,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,15 +61,16 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     private TextView totalTv;
     private ImageView collectionIMG;
     private Boolean isShowItem = true;
-    private   VoteSubmitViewPager viewPager;
+    private VoteSubmitViewPager viewPager;
     private PopupWindow popupWindow;
-    private  ExaminationSubmitAdapter pagerAdapter;
+    private ExaminationSubmitAdapter pagerAdapter;
 
 
     List<Question> questions = new ArrayList<Question>();
     private int rightTopicNums;// 错题数
     private int questionAcount;//试题总数
     private int score;//总分
+    private static final String TAG = "AnalogyExaminationActiv";
     private int scoreStandard = 100;//一百分制
     private int pagePosition = 0;//当前页面位置
     private String isPerfectData = "1";// 是否完善资料0完成 1未完成
@@ -93,7 +97,11 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     private void initData() {
         submitDialog = new SubmitDialog(this);
         questionService = new QuesionServiceImp(this);
-        questions = (List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_QUESTIONS);
+        if ((List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_QUESTIONS) != null) {
+            questions = (List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_QUESTIONS);
+        } else {
+            questions = (List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_WRONG_QUESTIONS);
+        }
         isExma = getIntent().getBooleanExtra(IntentFlagConstant.IS_EXMA, false);
         questionAcount = questions.size();
         pattern = getIntent().getStringExtra(IntentFlagConstant.PATTERN_TITLE);
@@ -114,7 +122,6 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
         ll_wrongbook = findViewById(R.id.ll_wrongbook);
         ll_wrongbook.setOnClickListener(this);
         ll_time = findViewById(R.id.ll_time);
-
         leftIv.setOnClickListener(this);
         totalTv.setText("0 /" + questionAcount);
         titleTv.setText(pattern);
@@ -138,11 +145,13 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
 //            countdownTV.setVisibility(View.VISIBLE);
 //            countdownTV.setCompoundDrawables(drawable1, null, null, null);
             ll_time.setVisibility(View.VISIBLE);
-
             countdownTV.setText(exmaTime);
         } else {
             // TODO 不是考试模式todo
+            ll_time.setVisibility(View.GONE);
+
         }
+
     }
 
     //装载数据
@@ -153,6 +162,10 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
         viewPager.setAdapter(pagerAdapter);
         viewPager.getParent()
                 .requestDisallowInterceptTouchEvent(false);
+        if (getIntent().getIntExtra(IntentFlagConstant.GET_WRONG_POSITION, -1) != -1) {
+            int error_position = getIntent().getIntExtra(IntentFlagConstant.GET_WRONG_POSITION, -1);
+            viewPager.setCurrentItem(error_position);
+        }
     }
 
 
@@ -258,6 +271,21 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
             }
             case R.id.ll_wrongbook: {
                 //错题本
+//                QuesionServiceImp quesionServiceImp=new QuesionServiceImp(this);
+//                List<Question> questions = quesionServiceImp.queryErrorQuestion();
+//                for(Question question:questions){
+//                    Log.e(TAG, "onClick: "+question.toString() );
+//                }
+                QuesionServiceImp quesionServiceImp = new QuesionServiceImp(this);
+                List<Question> questions = quesionServiceImp.queryErrorQuestion();
+
+                if (questions.size() == 0) {
+                    Toast.makeText(this, "暂无错题", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Intent intent = new Intent(this, WrongBookActivity.class);
+                intent.putExtra(IntentFlagConstant.GET_WRONG_QUESTIONS, (Serializable) questions);
+                startActivity(intent);
 
                 break;
             }

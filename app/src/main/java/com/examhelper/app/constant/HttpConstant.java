@@ -5,8 +5,8 @@ package com.examhelper.app.constant;
  */
 
 public class HttpConstant {
-    private static final String CONNECTION_SERVICE_ADDRESS = "http://10.0.2.2:8000/";//JR服务器地址
-    //private static final String CONNECTION_SERVICE_ADDRESS = "http://10.32.142.189:8080/";//Jun服务器地址
+//    private static final String CONNECTION_SERVICE_ADDRESS = "http://10.0.2.2:8000/";//JR服务器地址
+    private static final String CONNECTION_SERVICE_ADDRESS = "http://10.32.142.189:8080/";//Jun服务器地址
     public static final String API_ALL_SYNTHESIZES = CONNECTION_SERVICE_ADDRESS + "synthesizes";//获取所有题目
     public static final String API_SYNTHESIZES_BY_ID = CONNECTION_SERVICE_ADDRESS + "synthesizes/$s";//根据章节ID和证数ID获取试题
     public static final String API_ALL_PROPERTYS = CONNECTION_SERVICE_ADDRESS + "propertys";//获取所有章节
