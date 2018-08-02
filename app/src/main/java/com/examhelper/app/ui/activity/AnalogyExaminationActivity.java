@@ -113,6 +113,7 @@ private  PopupWindow popupWindow;
         ll_wrongbook=findViewById(R.id.ll_wrongbook);
         ll_wrongbook.setOnClickListener(this);
         ll_time=findViewById(R.id.ll_time);
+
         leftIv.setOnClickListener(this);
         totalTv.setText("0 /" + questionAcount);
         titleTv.setText(pattern);

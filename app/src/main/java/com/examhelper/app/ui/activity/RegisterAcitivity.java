@@ -15,7 +15,7 @@ import com.examhelper.app.listener.RegisterListener;
 
 public class RegisterAcitivity extends Activity {
 
-
+private RegisterAcitivity registerAcitivity;
     private TextInputEditText etUsername;
     private TextInputLayout register_number;
     private TextInputEditText register_firstPassword;
@@ -25,13 +25,16 @@ public class RegisterAcitivity extends Activity {
     private TextView choose;
     private RelativeLayout rl_choose;
     private Button btn_register;
+    private static final String TAG = "RegisterAcitivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        registerAcitivity=this;
         initView();
     }
+
 
 
     private void initView() {
@@ -44,6 +47,6 @@ public class RegisterAcitivity extends Activity {
         choose = (TextView) findViewById(R.id.choose);
         rl_choose = (RelativeLayout) findViewById(R.id.rl_choose);
         btn_register=findViewById(R.id.btn_register);
-        btn_register.setOnClickListener(new RegisterListener(getApplicationContext(),etUsername,register_firstPassword,register_confirmPassword,choose));
+        btn_register.setOnClickListener(new RegisterListener(registerAcitivity,etUsername,register_firstPassword,register_confirmPassword,choose));
         rl_choose.setOnClickListener(new RegisterChooseListener(this,choose));
     }}
