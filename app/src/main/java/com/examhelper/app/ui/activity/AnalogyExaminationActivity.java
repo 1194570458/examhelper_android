@@ -2,6 +2,7 @@ package com.examhelper.app.ui.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -21,6 +22,7 @@ import com.examhelper.app.adapter.ExaminationSubmitAdapter;
 import com.examhelper.app.adapter.PopupAdapter;
 import com.examhelper.app.constant.EventBusMessageConstant;
 import com.examhelper.app.constant.IntentFlagConstant;
+import com.examhelper.app.constant.NormalConstant;
 import com.examhelper.app.entity.Question;
 import com.examhelper.app.listener.ExaminationViewPagerListener;
 import com.examhelper.app.messageevent.ChangeTVEvent;
@@ -91,7 +93,11 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     private void initData() {
         submitDialog = new SubmitDialog(this);
         questionService = new QuesionServiceImp(this);
-        questions = (List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_QUESTIONS);
+        if ((List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_QUESTIONS) != null) {
+            questions = (List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_QUESTIONS);
+        } else {
+            questions = (List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_WRONG_QUESTIONS);
+        }
         questionAcount = questions.size();
         pattern = getIntent().getStringExtra(IntentFlagConstant.PATTERN_TITLE);
     }
@@ -111,7 +117,6 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
         ll_wrongbook = findViewById(R.id.ll_wrongbook);
         ll_wrongbook.setOnClickListener(this);
         ll_time = findViewById(R.id.ll_time);
-
         leftIv.setOnClickListener(this);
         totalTv.setText("0 /" + questionAcount);
         titleTv.setText(pattern);
@@ -145,6 +150,11 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
         viewPager.setAdapter(pagerAdapter);
         viewPager.getParent()
                 .requestDisallowInterceptTouchEvent(false);
+        if (getIntent().getIntExtra(IntentFlagConstant.GET_WRONG_POSITION, -1) != -1) {
+            int WRONG_POSITION = getIntent().getIntExtra(IntentFlagConstant.GET_WRONG_POSITION, -1);
+            viewPager.setCurrentItem(WRONG_POSITION);
+        }
+
     }
 
 
@@ -249,7 +259,9 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
             }
             case R.id.ll_wrongbook: {
                 //错题本
-
+                Intent intent = new Intent(this, WrongAndCollectionsActivity.class);
+                intent.putExtra(IntentFlagConstant.IS_WRONGORCOLLECT, NormalConstant.WRONG_BOOK);
+                startActivity(intent);
                 break;
             }
             case R.id.left: {

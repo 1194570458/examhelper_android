@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".ui.activity.AnalogyExaminationActivity">
         </activity>
-        <activity android:name=".ui.activity.WrongBookActivity">
+        <activity android:name=".ui.activity.WrongAndCollectionsActivity">
 
         </activity>
     </application>
