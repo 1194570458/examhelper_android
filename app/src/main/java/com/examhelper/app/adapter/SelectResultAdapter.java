@@ -79,6 +79,7 @@ public class SelectResultAdapter extends BaseAdapter {
                     isRight_Img.setImageResource(R.mipmap.ic_practice_test_right);
                     select_Tv.setTextColor(R.color.right);
                 } else {
+
                     isRight_Img.setImageResource(R.mipmap.ic_practice_test_wrong);
                     select_Tv.setTextColor(R.color.error);
                     //显示试题解析
