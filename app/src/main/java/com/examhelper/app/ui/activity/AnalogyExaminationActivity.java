@@ -2,7 +2,6 @@ package com.examhelper.app.ui.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.examhelper.app.R;
 import com.examhelper.app.adapter.ExaminationSubmitAdapter;
@@ -26,20 +24,18 @@ import com.examhelper.app.constant.IntentFlagConstant;
 import com.examhelper.app.entity.Question;
 import com.examhelper.app.listener.ExaminationViewPagerListener;
 import com.examhelper.app.messageevent.ChangeTVEvent;
-import com.examhelper.app.messageevent.IsTimeShowEvent;
+import com.examhelper.app.messageevent.NotifyBackDialogEvent;
 import com.examhelper.app.service.IQuestionService;
 import com.examhelper.app.service.imp.QuesionServiceImp;
 import com.examhelper.app.ui.view.CountdownTextView;
-import com.examhelper.app.ui.view.IsTimeDialog;
+import com.examhelper.app.ui.view.NotifyBackDialog;
 import com.examhelper.app.ui.view.SubmitDialog;
-import com.examhelper.app.ui.view.VoteSubmitViewPager;
 import com.examhelper.app.utils.ViewPagerScroller;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +57,7 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     private TextView totalTv;
     private ImageView collectionIMG;
     private Boolean isShowItem = true;
-    private VoteSubmitViewPager viewPager;
+    public ViewPager viewPager;
     private PopupWindow popupWindow;
     private ExaminationSubmitAdapter pagerAdapter;
 
@@ -70,14 +66,12 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     private int rightTopicNums;// 错题数
     private int questionAcount;//试题总数
     private int score;//总分
-    private static final String TAG = "AnalogyExaminationActiv";
     private int scoreStandard = 100;//一百分制
     private int pagePosition = 0;//当前页面位置
     private String isPerfectData = "1";// 是否完善资料0完成 1未完成
-    private boolean isExma = false;// false模拟 true竞赛
-    private String pattern;
+    public String pattern;
     private boolean isUpload = false;
-    private String exmaTime = "00:10";//考试时间
+    private String exmaTime = "15:00";//考试时间
 
     IQuestionService questionService;
     Dialog submitDialog;
@@ -97,12 +91,7 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     private void initData() {
         submitDialog = new SubmitDialog(this);
         questionService = new QuesionServiceImp(this);
-        if ((List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_QUESTIONS) != null) {
-            questions = (List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_QUESTIONS);
-        } else {
-            questions = (List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_WRONG_QUESTIONS);
-        }
-        isExma = getIntent().getBooleanExtra(IntentFlagConstant.IS_EXMA, false);
+        questions = (List<Question>) getIntent().getSerializableExtra(IntentFlagConstant.GET_QUESTIONS);
         questionAcount = questions.size();
         pattern = getIntent().getStringExtra(IntentFlagConstant.PATTERN_TITLE);
     }
@@ -122,13 +111,16 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
         ll_wrongbook = findViewById(R.id.ll_wrongbook);
         ll_wrongbook.setOnClickListener(this);
         ll_time = findViewById(R.id.ll_time);
+
         leftIv.setOnClickListener(this);
         totalTv.setText("0 /" + questionAcount);
         titleTv.setText(pattern);
-        viewPager = (VoteSubmitViewPager) findViewById(R.id.vote_submit_viewpager);
+        viewPager = findViewById(R.id.vote_submit_viewpager);
         viewPager.setOnPageChangeListener(new ExaminationViewPagerListener() {
             @Override
             public void onPageSelected(int position) {
+                //设置当前位置
+                pagePosition = position;
                 totalTv.setText((position + 1) + "/" + questionAcount);
                 judgeIsCollection(questions.get(position));
             }
@@ -136,22 +128,13 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
         initViewPagerScroll();
         judgeIsCollection(questions.get(0));
         //如果是模拟考试将进行考试时间倒计时
-        if (isExma) {
-//            countdownTV.setTime(exmaTime);
-//            Drawable drawable1 = getBaseContext().getResources().getDrawable(
-//                    R.mipmap.ic_practice_time);
-//            drawable1.setBounds(0, 0, drawable1.getMinimumWidth(),
-//                    drawable1.getMinimumHeight());
-//            countdownTV.setVisibility(View.VISIBLE);
-//            countdownTV.setCompoundDrawables(drawable1, null, null, null);
+        if (pattern.equals(getResources().getString(R.string.simulation_test))) {
             ll_time.setVisibility(View.VISIBLE);
             countdownTV.setText(exmaTime);
         } else {
-            // TODO 不是考试模式todo
             ll_time.setVisibility(View.GONE);
-
+            // TODO 不是考试模式todo
         }
-
     }
 
     //装载数据
@@ -162,10 +145,6 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
         viewPager.setAdapter(pagerAdapter);
         viewPager.getParent()
                 .requestDisallowInterceptTouchEvent(false);
-        if (getIntent().getIntExtra(IntentFlagConstant.GET_WRONG_POSITION, -1) != -1) {
-            int error_position = getIntent().getIntExtra(IntentFlagConstant.GET_WRONG_POSITION, -1);
-            viewPager.setCurrentItem(error_position);
-        }
     }
 
 
@@ -204,9 +183,9 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
 
     // 弹出对话框通知用户是否退出
     @Subscribe(threadMode = ThreadMode.MAIN)
-    protected void showTimeOutDialog(IsTimeShowEvent isTimeShowEvent) {
-        IsTimeDialog isTimeDialog = new IsTimeDialog(this, isTimeShowEvent.getType());
-        isTimeDialog.show();
+    protected void showTimeOutDialog(NotifyBackDialogEvent notifyBackDialogEvent) {
+        NotifyBackDialog notifyBackDialog = new NotifyBackDialog(this, notifyBackDialogEvent.getType());
+        notifyBackDialog.show();
     }
 
     // 弹出对话框通知用户提交成功
@@ -238,8 +217,8 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            IsTimeShowEvent isTimeShowEvent = new IsTimeShowEvent(IsTimeShowEvent.IS_END);
-            EventBus.getDefault().post(isTimeShowEvent);
+            NotifyBackDialogEvent notifyBackDialogEvent = new NotifyBackDialogEvent(NotifyBackDialogEvent.IS_END);
+            EventBus.getDefault().post(notifyBackDialogEvent);
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -256,7 +235,6 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.activity_prepare_test_collectionLayout: {
                 //添加收藏
                 Question question = questions.get(pagePosition);
@@ -271,26 +249,11 @@ public class AnalogyExaminationActivity extends Activity implements OnClickListe
             }
             case R.id.ll_wrongbook: {
                 //错题本
-//                QuesionServiceImp quesionServiceImp=new QuesionServiceImp(this);
-//                List<Question> questions = quesionServiceImp.queryErrorQuestion();
-//                for(Question question:questions){
-//                    Log.e(TAG, "onClick: "+question.toString() );
-//                }
-                QuesionServiceImp quesionServiceImp = new QuesionServiceImp(this);
-                List<Question> questions = quesionServiceImp.queryErrorQuestion();
-
-                if (questions.size() == 0) {
-                    Toast.makeText(this, "暂无错题", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Intent intent = new Intent(this, WrongBookActivity.class);
-                intent.putExtra(IntentFlagConstant.GET_WRONG_QUESTIONS, (Serializable) questions);
-                startActivity(intent);
 
                 break;
             }
             case R.id.left: {
-                EventBus.getDefault().post(new IsTimeShowEvent(IsTimeShowEvent.IS_END));
+                EventBus.getDefault().post(new NotifyBackDialogEvent(NotifyBackDialogEvent.IS_END));
                 break;
             }
             case R.id.activity_prepare_test_totalLayout: {

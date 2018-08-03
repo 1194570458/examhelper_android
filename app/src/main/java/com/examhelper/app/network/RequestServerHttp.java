@@ -26,6 +26,7 @@ import com.examhelper.app.service.IQuestionService;
 import com.examhelper.app.service.imp.CertificatesServiceImp;
 import com.examhelper.app.service.imp.ChapterServiceImp;
 import com.examhelper.app.service.imp.QuesionServiceImp;
+import com.examhelper.app.ui.activity.RegisterAcitivity;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,13 +42,14 @@ import java.util.List;
  * Created by Administrator on 2018/7/24.
  */
 public class RequestServerHttp {
+    private static Context mContext;
     private RequestQueue requestQueue;
     private static RequestServerHttp requestServerHttp;
-    IChapterService chapterService;
-    IQuestionService questionService;
-    ICertificatesService certificatesService;
-    IUserDao userDao;
-    SharedPreferences sharedPreferences;
+    private IChapterService chapterService;
+    private IQuestionService questionService;
+    private ICertificatesService certificatesService;
+    private IUserDao userDao;
+    private SharedPreferences sharedPreferences;
 
     private RequestServerHttp(Context context) {
         sharedPreferences = context.getSharedPreferences(SharePreferencesConstant.APP_INIT_SP_NAME, Context.MODE_PRIVATE);
@@ -60,6 +62,7 @@ public class RequestServerHttp {
 
 
     public static RequestServerHttp getInstance(Context context) {
+        mContext = context;
         if (requestServerHttp == null) {
             synchronized (RequestServerHttp.class) {
                 if (requestServerHttp == null) {
@@ -345,6 +348,8 @@ public class RequestServerHttp {
                                     userDao.insert(user);
                                     //通知注册成功
                                     EventBus.getDefault().post(new RegisterEvent(RegisterEvent.TYPE_SUCCESS, user));
+                                    //关闭注册界面
+                                    ((RegisterAcitivity) mContext).finish();
                                 } else {
                                     //通知注册失败
                                     EventBus.getDefault().post(new RegisterEvent(RegisterEvent.TYPE_FAILURE));

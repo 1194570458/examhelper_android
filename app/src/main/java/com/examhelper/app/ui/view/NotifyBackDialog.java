@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.examhelper.app.R;
 import com.examhelper.app.constant.EventBusMessageConstant;
-import com.examhelper.app.messageevent.IsTimeShowEvent;
+import com.examhelper.app.messageevent.NotifyBackDialogEvent;
 import com.examhelper.app.ui.activity.AnalogyExaminationActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -18,11 +18,11 @@ import org.greenrobot.eventbus.EventBus;
  * Created by Administrator on 2018/7/27.
  */
 
-public class IsTimeDialog extends Dialog implements View.OnClickListener {
+public class NotifyBackDialog extends Dialog implements View.OnClickListener {
     private int type;
     private Context context;
 
-    public IsTimeDialog(@NonNull Context context, int type) {
+    public NotifyBackDialog(@NonNull Context context, int type) {
         super(context, R.style.dialog);
         this.context = context;
         this.type = type;
@@ -35,17 +35,14 @@ public class IsTimeDialog extends Dialog implements View.OnClickListener {
         TextView content = (TextView) findViewById(R.id.dialog_content);
         Button confirm_btn = (Button) findViewById(R.id.dialog_sure);
         Button cancel_btn = (Button) findViewById(R.id.dialog_cancle);
-        if (type == IsTimeShowEvent.IS_TIME) {
+        if (type == NotifyBackDialogEvent.IS_TIME) {
             content.setText("您的答题时间结束,是否提交试卷?");
             confirm_btn.setText("提交");
             cancel_btn.setText("退出");
-        } else if (type == IsTimeShowEvent.IS_END) {
-            content.setText("您要结束本次模拟答题吗？");
-            confirm_btn.setText("退出");
-            cancel_btn.setText("继续答题");
-        } else {
+        } else if (type == NotifyBackDialogEvent.IS_END) {
+            content.setText("确定退出吗？");
             confirm_btn.setText("确定");
-            cancel_btn.setVisibility(View.GONE);
+            cancel_btn.setText("取消");
         }
         confirm_btn.setOnClickListener(this);
         cancel_btn.setOnClickListener(this);
@@ -56,20 +53,16 @@ public class IsTimeDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_cancle: {
-                if (type == IsTimeShowEvent.IS_TIME) {
-                    dismiss();
-                } else {
-                    dismiss();
-                }
+                dismiss();
                 break;
             }
             case R.id.dialog_sure: {
-                if (type == IsTimeShowEvent.IS_TIME) {
-                    IsTimeDialog.this.dismiss();
+                if (type == NotifyBackDialogEvent.IS_TIME) {
+                    NotifyBackDialog.this.dismiss();
                     // 统计测试
                     EventBus.getDefault().post(EventBusMessageConstant.COUNTING_SCORE);
                 } else {
-                    IsTimeDialog.this.dismiss();
+                    NotifyBackDialog.this.dismiss();
                     ((AnalogyExaminationActivity) context).finish();
                 }
                 break;
