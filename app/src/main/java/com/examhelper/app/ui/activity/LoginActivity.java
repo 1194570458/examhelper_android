@@ -1,6 +1,5 @@
 package com.examhelper.app.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -24,7 +23,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends BaseActivity {
     public TextInputEditText etUsername;
     private TextInputLayout til_login_user;
     public TextInputEditText etPassword;

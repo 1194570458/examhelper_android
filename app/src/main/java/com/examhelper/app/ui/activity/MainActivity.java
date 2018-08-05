@@ -17,7 +17,7 @@ import com.examhelper.app.service.imp.QuesionServiceImp;
 import java.io.Serializable;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout ll_RondomPratice;
     private LinearLayout ll_WrongBook;
@@ -84,7 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             //专项考试
             case R.id.ll_SpecialExamination:
-                Toast.makeText(this, "暂无此功能", Toast.LENGTH_SHORT).show();
+                Intent intent3 = new Intent(this, WrongAndCollectionsActivity.class);
+                intent3.putExtra(IntentFlagConstant.IS_WRONGORCOLLECT, NormalConstant.SPECIAL_EXAMINATION);
+                startActivity(intent3);
                 break;
         }
 

@@ -1,6 +1,5 @@
 package com.examhelper.app.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,7 +23,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 
-public class RegisterAcitivity extends Activity {
+public class RegisterAcitivity extends BaseActivity {
 
     private RegisterAcitivity registerAcitivity;
     private TextInputEditText etUsername;

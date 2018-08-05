@@ -10,7 +10,7 @@ public class IntentFlagConstant {
     public static final String REGISTER_BACK_USER = "user";//存放用户信息
     public static final String GET_WRONG_QUESTIONS = "ERROR_QUESTIONS";//获取错误的试题集
     public static final String GET_WRONG_POSITION = "ERROR_QUESTIONS_POSITION";//获取错误的试题集位置
-    public static final String IS_WRONGORCOLLECT="IS_WRONGORCOLLECT" ;//错题或收藏
+    public static final String IS_WRONGORCOLLECT="IS_WRONGORCOLLECT" ;//错题或收藏或专项
 
 
 }

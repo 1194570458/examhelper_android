@@ -1,6 +1,5 @@
 package com.examhelper.app.ui.activity;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -47,7 +46,7 @@ import java.util.List;
  *
  * @author JR
  */
-public class AnalogyExaminationActivity extends Activity implements OnClickListener {
+public class AnalogyExaminationActivity extends BaseActivity implements OnClickListener {
 
     private ImageView leftIv;
     private TextView titleTv;

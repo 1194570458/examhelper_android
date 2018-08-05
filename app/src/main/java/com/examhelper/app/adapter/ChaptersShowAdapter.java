@@ -8,24 +8,29 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.examhelper.app.R;
+import com.examhelper.app.entity.Chapter;
 import com.examhelper.app.entity.Question;
-import com.examhelper.app.listener.CollectionToDetailListener;
+import com.examhelper.app.listener.ChaptersToDetailListener;
+import com.j256.ormlite.dao.ForeignCollection;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CollectionsShowAdapter extends BaseAdapter {
+public class ChaptersShowAdapter extends BaseAdapter {
     private Context context;
+    private List<Chapter>  chapters;
     private List<Question> questions;
 
 
-    public CollectionsShowAdapter(Context context, List<Question> questions) {
+    public ChaptersShowAdapter(Context context,  List<Chapter>  chapters) {
         this.context = context;
-        this.questions = questions;
+        this.chapters = chapters;
+        questions=new ArrayList<Question>();
     }
 
     @Override
     public int getCount() {
-        return questions.size();
+        return chapters.size();
     }
 
     @Override
@@ -45,8 +50,12 @@ public class CollectionsShowAdapter extends BaseAdapter {
         }
         TextView textView = convertView.findViewById(R.id.my_error_item_name);
         RelativeLayout rl_wrong = convertView.findViewById(R.id.rl_wrong);
-        textView.setText(position+1+"."+questions.get(position).getTitle());
-        rl_wrong.setOnClickListener(new CollectionToDetailListener(context,questions,position));
+        textView.setText(position+1+"."+chapters.get(position).getChapterName());
+        ForeignCollection<Question> foreignCollection = chapters.get(position).getQuestions();
+        for (Question question : foreignCollection) {
+            questions.add(question);
+        }
+        rl_wrong.setOnClickListener(new ChaptersToDetailListener(context, questions,position));
         return convertView;
     }
 }
