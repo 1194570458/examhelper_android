@@ -2,10 +2,8 @@ package com.examhelper.app.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.examhelper.app.R;
 import com.examhelper.app.constant.IntentFlagConstant;
@@ -24,13 +22,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout ll_SequencePractice;
     private LinearLayout ll_SpecialExamination;
     private LinearLayout ll_MyCollection;
+    private IQuestionService questionService;
+    private LinearLayout ll_simulation_test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initData();
         initView();
+    }
 
+    private void initData() {
+        questionService = new QuesionServiceImp(this);
     }
 
     private void initView() {
@@ -44,49 +48,56 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ll_WrongBook.setOnClickListener(this);
         ll_SpecialExamination.setOnClickListener(this);
         ll_MyCollection.setOnClickListener(this);
-
+        ll_simulation_test =findViewById(R.id.ll_simulation_test);
+        ll_simulation_test.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         Intent intent;
-        IQuestionService iQuestionService = new QuesionServiceImp(v.getContext());
         switch (v.getId()) {
             //顺序练习
             case R.id.ll_SequencePractice:
                 intent = new Intent(this, AnalogyExaminationActivity.class);
-                iQuestionService = new QuesionServiceImp(v.getContext());
-                List<Question> allQuestions = iQuestionService.queryAllQuestions();
+                List<Question> allQuestions = questionService.queryAllQuestions();
                 intent.putExtra(IntentFlagConstant.GET_QUESTIONS, (Serializable) allQuestions);
                 intent.putExtra(IntentFlagConstant.PATTERN_TITLE, v.getContext().getResources().getString(R.string.sequence_practice));
                 startActivity(intent);
                 break;
             //错题本
             case R.id.ll_WrongBook:
-                Intent intent1 = new Intent(this, WrongAndCollectionsActivity.class);
-                intent1.putExtra(IntentFlagConstant.IS_WRONGORCOLLECT, NormalConstant.WRONG_BOOK);
-                startActivity(intent1);
+                intent = new Intent(this, WrongAndCollectionsActivity.class);
+                intent.putExtra(IntentFlagConstant.IS_WRONGORCOLLECT, NormalConstant.WRONG_BOOK);
+                startActivity(intent);
                 break;
             //我的收藏
             case R.id.ll_MyCollection:
-                Intent intent2 = new Intent(this, WrongAndCollectionsActivity.class);
-                intent2.putExtra(IntentFlagConstant.IS_WRONGORCOLLECT, NormalConstant.MY_COLLECTION);
-                startActivity(intent2);
+                intent = new Intent(this, WrongAndCollectionsActivity.class);
+                intent.putExtra(IntentFlagConstant.IS_WRONGORCOLLECT, NormalConstant.MY_COLLECTION);
+                startActivity(intent);
                 break;
 
             //随机练习
             case R.id.ll_RondomPratice:
                 intent = new Intent(this, AnalogyExaminationActivity.class);
-                List<Question> allRandomQuestion = iQuestionService.queryRandomQuestions();
+                List<Question> allRandomQuestion = questionService.queryRandomQuestions();
                 intent.putExtra(IntentFlagConstant.GET_QUESTIONS, (Serializable) allRandomQuestion);
                 intent.putExtra(IntentFlagConstant.PATTERN_TITLE, v.getContext().getResources().getString(R.string.rondom_pratice));
                 startActivity(intent);
                 break;
             //专项考试
             case R.id.ll_SpecialExamination:
-                Intent intent3 = new Intent(this, WrongAndCollectionsActivity.class);
-                intent3.putExtra(IntentFlagConstant.IS_WRONGORCOLLECT, NormalConstant.SPECIAL_EXAMINATION);
-                startActivity(intent3);
+                intent = new Intent(this, WrongAndCollectionsActivity.class);
+                intent.putExtra(IntentFlagConstant.IS_WRONGORCOLLECT, NormalConstant.SPECIAL_EXAMINATION);
+                startActivity(intent);
+                break;
+            //模拟考试
+            case R.id.ll_simulation_test:
+                intent = new Intent(this, AnalogyExaminationActivity.class);
+                allQuestions = questionService.queryAllQuestions();
+                intent.putExtra(IntentFlagConstant.GET_QUESTIONS, (Serializable) allQuestions);
+                intent.putExtra(IntentFlagConstant.PATTERN_TITLE, v.getContext().getResources().getString(R.string.simulation_test));
+                startActivity(intent);
                 break;
         }
 

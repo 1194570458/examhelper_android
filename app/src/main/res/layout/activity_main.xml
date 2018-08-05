@@ -15,48 +15,47 @@
         android:gravity="center"
         android:orientation="vertical">
 
-<LinearLayout
-    android:id="@+id/ll_RondomPratice"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+        <LinearLayout
+            android:id="@+id/ll_RondomPratice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_RondomPratice"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerVertical="true"
-        android:src="@mipmap/rondom" />
+            <ImageView
+                android:id="@+id/iv_RondomPratice"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/rondom" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/rondom_pratice" />
-</LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/rondom_pratice" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_WrongBook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_WrongBook"
-            android:layout_marginTop="10dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/wrong_book_blue" />
+            <ImageView
+                android:id="@+id/iv_WrongBook"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/wrong_book_blue" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/wrong_book" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/wrong_book" />
         </LinearLayout>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,38 +88,48 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/ll_SequencePractice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_SequencePractice"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/practice" />
+            <ImageView
+                android:id="@+id/iv_SequencePractice"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/practice" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sequence_practice" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sequence_practice" />
         </LinearLayout>
-        <ImageView
-            android:layout_marginTop="10dp"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher" />
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/ll_simulation_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/simulation_test" />
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_simulation_test"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/simulation_test" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/simulation_test" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -132,45 +141,48 @@
         android:layout_weight="2"
         android:gravity="center"
         android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/ll_SpecialExamination"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-        <ImageView
-            android:id="@+id/iv_SpecialExamination"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/examination" />
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/special_examination" />
+            <ImageView
+                android:id="@+id/iv_SpecialExamination"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/examination" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/special_examination" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ll_MyCollection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-        <ImageView
-            android:id="@+id/iv_MyCollection"
-            android:layout_marginTop="10dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/collection" />
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/my_collection" />
+            <ImageView
+                android:id="@+id/iv_MyCollection"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/collection" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/my_collection" />
         </LinearLayout>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

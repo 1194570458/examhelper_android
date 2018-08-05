@@ -72,7 +72,7 @@ public class AnalogyExaminationActivity extends BaseActivity implements OnClickL
     private String isPerfectData = "1";// 是否完善资料0完成 1未完成
     public String pattern;
     private boolean isUpload = false;
-    private String exmaTime = "15:00";//考试时间
+    private String exmaTime = "00:10";//考试时间
 
     IQuestionService questionService;
     Dialog submitDialog;
@@ -134,6 +134,7 @@ public class AnalogyExaminationActivity extends BaseActivity implements OnClickL
         if (pattern.equals(getResources().getString(R.string.simulation_test))) {
             ll_time.setVisibility(View.VISIBLE);
             countdownTV.setText(exmaTime);
+            countdownTV.setTime(exmaTime);
         } else {
             ll_time.setVisibility(View.GONE);
             // TODO 不是考试模式todo
@@ -174,7 +175,7 @@ public class AnalogyExaminationActivity extends BaseActivity implements OnClickL
     }
 
 
-    // 统计分析
+    // 统计分数并弹出对话框显示
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void uploadExamination(Integer eventBusMessageConstant) {
         if (eventBusMessageConstant == EventBusMessageConstant.COUNTING_SCORE) {
@@ -184,15 +185,16 @@ public class AnalogyExaminationActivity extends BaseActivity implements OnClickL
                 }
             }
             score = scoreStandard / questionAcount * (rightTopicNums);
-            EventBus.getDefault().post(EventBusMessageConstant.COUNTING_END);
-            //TODO 上传服务器
+            NotifyBackDialogEvent notifyBackDialogEvent = new NotifyBackDialogEvent(NotifyBackDialogEvent.IS_TIME);
+            notifyBackDialogEvent.setScore(score);
+            EventBus.getDefault().post(notifyBackDialogEvent);
         }
     }
 
     // 弹出对话框通知用户是否退出
     @Subscribe(threadMode = ThreadMode.MAIN)
     protected void showTimeOutDialog(NotifyBackDialogEvent notifyBackDialogEvent) {
-        NotifyBackDialog notifyBackDialog = new NotifyBackDialog(this, notifyBackDialogEvent.getType());
+        NotifyBackDialog notifyBackDialog = new NotifyBackDialog(this, notifyBackDialogEvent);
         notifyBackDialog.show();
     }
 

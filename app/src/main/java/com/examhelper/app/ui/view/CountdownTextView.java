@@ -7,8 +7,8 @@ import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.examhelper.app.constant.EventBusMessageConstant;
 import com.examhelper.app.messageevent.ChangeTVEvent;
-import com.examhelper.app.messageevent.NotifyBackDialogEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -51,9 +51,8 @@ public class CountdownTextView extends android.support.v7.widget.AppCompatTextVi
                 EventBus.getDefault().post(changeTVEvent);
                 if ((second--) == 0) {
                     timer.cancel();
-                    // 倒时间到
-                    NotifyBackDialogEvent notifyBackDialogEvent = new NotifyBackDialogEvent(NotifyBackDialogEvent.IS_TIME);
-                    EventBus.getDefault().post(notifyBackDialogEvent);
+                    // 倒时间到,统计分数
+                    EventBus.getDefault().post(EventBusMessageConstant.COUNTING_SCORE);
                 }
             }
         };

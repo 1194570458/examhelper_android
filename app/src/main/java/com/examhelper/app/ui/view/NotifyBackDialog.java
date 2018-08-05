@@ -19,27 +19,27 @@ import org.greenrobot.eventbus.EventBus;
  */
 
 public class NotifyBackDialog extends Dialog implements View.OnClickListener {
-    private int type;
     private Context context;
+    private NotifyBackDialogEvent notifyBackDialogEvent;
 
-    public NotifyBackDialog(@NonNull Context context, int type) {
+    public NotifyBackDialog(@NonNull Context context, NotifyBackDialogEvent notifyBackDialogEvent) {
         super(context, R.style.dialog);
-        this.context = context;
-        this.type = type;
         setContentView(R.layout.my_dialog);
-        initView(type);
+        this.notifyBackDialogEvent = notifyBackDialogEvent;
+        this.context = context;
+        initView(notifyBackDialogEvent);
     }
 
-    private void initView(int type) {
+    private void initView(NotifyBackDialogEvent notifyBackDialogEvent) {
         TextView title = (TextView) findViewById(R.id.dialog_title);
         TextView content = (TextView) findViewById(R.id.dialog_content);
         Button confirm_btn = (Button) findViewById(R.id.dialog_sure);
         Button cancel_btn = (Button) findViewById(R.id.dialog_cancle);
-        if (type == NotifyBackDialogEvent.IS_TIME) {
-            content.setText("您的答题时间结束,是否提交试卷?");
+        if (notifyBackDialogEvent.getType() == NotifyBackDialogEvent.IS_TIME) {
+            content.setText("您的答题时间结束,考核分数为:" + notifyBackDialogEvent.getScore() + "分\n是否提交试卷?");
             confirm_btn.setText("提交");
             cancel_btn.setText("退出");
-        } else if (type == NotifyBackDialogEvent.IS_END) {
+        } else if (notifyBackDialogEvent.getType() == NotifyBackDialogEvent.IS_END) {
             content.setText("确定退出吗？");
             confirm_btn.setText("确定");
             cancel_btn.setText("取消");
@@ -57,10 +57,10 @@ public class NotifyBackDialog extends Dialog implements View.OnClickListener {
                 break;
             }
             case R.id.dialog_sure: {
-                if (type == NotifyBackDialogEvent.IS_TIME) {
+                if (notifyBackDialogEvent.getType() == NotifyBackDialogEvent.IS_TIME) {
                     NotifyBackDialog.this.dismiss();
-                    // 统计测试
-                    EventBus.getDefault().post(EventBusMessageConstant.COUNTING_SCORE);
+                    //TODO 上传服务器
+                    EventBus.getDefault().post(EventBusMessageConstant.COUNTING_END);
                 } else {
                     NotifyBackDialog.this.dismiss();
                     ((AnalogyExaminationActivity) context).finish();
