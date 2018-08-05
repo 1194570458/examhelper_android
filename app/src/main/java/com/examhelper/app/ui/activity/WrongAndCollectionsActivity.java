@@ -1,6 +1,5 @@
 package com.examhelper.app.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -9,10 +8,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.examhelper.app.R;
+import com.examhelper.app.adapter.ChaptersShowAdapter;
 import com.examhelper.app.adapter.CollectionsShowAdapter;
 import com.examhelper.app.adapter.WrongShowAdapter;
 import com.examhelper.app.constant.IntentFlagConstant;
 import com.examhelper.app.constant.NormalConstant;
+import com.examhelper.app.dao.IChapterDao;
+import com.examhelper.app.dao.imp.ChapterDaoImp;
+import com.examhelper.app.entity.Chapter;
 import com.examhelper.app.entity.Question;
 import com.examhelper.app.service.imp.QuesionServiceImp;
 
@@ -24,7 +27,7 @@ public class WrongAndCollectionsActivity extends BaseActivity implements View.On
     private TextView tv_title;
     private String title;
     private ImageView left;
-
+    private static final String TAG = "WrongAndCollectionsActi";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,12 @@ public class WrongAndCollectionsActivity extends BaseActivity implements View.On
             QuesionServiceImp quesionServiceImp = new QuesionServiceImp(this);
             questions = quesionServiceImp.queryCollectedQuestion();
             lv_wrongbook.setAdapter(new CollectionsShowAdapter(this, questions));
+        }else if(NormalConstant.SPECIAL_EXAMINATION.equals(title)){
+            //专项训练
+            IChapterDao iChapterDao = new ChapterDaoImp(this);
+            List<Chapter> chapters = iChapterDao.selectAllChapter();
+            lv_wrongbook.setAdapter(new ChaptersShowAdapter(this, chapters));
+
         }
 
     }

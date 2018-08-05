@@ -6,6 +6,7 @@ public class NormalConstant {
      */
     public static final String WRONG_BOOK= "错题本";
     public static final String MY_COLLECTION= "我的收藏";
+    public static final String SPECIAL_EXAMINATION= "专项训练";
 
 
 }

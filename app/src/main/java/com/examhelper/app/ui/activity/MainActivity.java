@@ -23,6 +23,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout ll_SequencePractice;
     private LinearLayout ll_SpecialExamination;
     private LinearLayout ll_MyCollection;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +72,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(intent2);
                 break;
 
-                //随机练习
+            //随机练习
             case R.id.ll_RondomPratice:
                 Toast.makeText(this, "暂无此功能", Toast.LENGTH_SHORT).show();
+
                 break;
             //专项考试
             case R.id.ll_SpecialExamination:
-                Toast.makeText(this, "暂无此功能", Toast.LENGTH_SHORT).show();
+                Intent intent3 = new Intent(this, WrongAndCollectionsActivity.class);
+                intent3.putExtra(IntentFlagConstant.IS_WRONGORCOLLECT, NormalConstant.SPECIAL_EXAMINATION);
+                startActivity(intent3);
                 break;
         }
 
