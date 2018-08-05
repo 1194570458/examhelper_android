@@ -49,13 +49,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        Intent intent;
+        IQuestionService iQuestionService = new QuesionServiceImp(v.getContext());
         switch (v.getId()) {
             //顺序练习
             case R.id.ll_SequencePractice:
-                Intent intent = new Intent(this, AnalogyExaminationActivity.class);
-                IQuestionService iQuestionService = new QuesionServiceImp(v.getContext());
-                List<Question> questions = iQuestionService.queryAllQuestions();
-                intent.putExtra(IntentFlagConstant.GET_QUESTIONS, (Serializable) questions);
+                intent = new Intent(this, AnalogyExaminationActivity.class);
+                iQuestionService = new QuesionServiceImp(v.getContext());
+                List<Question> allQuestions = iQuestionService.queryAllQuestions();
+                intent.putExtra(IntentFlagConstant.GET_QUESTIONS, (Serializable) allQuestions);
                 intent.putExtra(IntentFlagConstant.PATTERN_TITLE, v.getContext().getResources().getString(R.string.sequence_practice));
                 startActivity(intent);
                 break;
@@ -72,9 +74,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent2);
                 break;
 
-                //随机练习
+            //随机练习
             case R.id.ll_RondomPratice:
-                Toast.makeText(this, "暂无此功能", Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, AnalogyExaminationActivity.class);
+                List<Question> allRandomQuestion = iQuestionService.queryRandomQuestions();
+                intent.putExtra(IntentFlagConstant.GET_QUESTIONS, (Serializable) allRandomQuestion);
+                intent.putExtra(IntentFlagConstant.PATTERN_TITLE, v.getContext().getResources().getString(R.string.rondom_pratice));
+                startActivity(intent);
                 break;
             //专项考试
             case R.id.ll_SpecialExamination:

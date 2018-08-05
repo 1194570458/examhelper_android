@@ -4,7 +4,9 @@ import android.app.Application;
 import android.util.Log;
 
 import com.examhelper.app.db.QuestionsDbHelper;
+import com.examhelper.app.service.IQuestionService;
 import com.examhelper.app.service.IRequestServer;
+import com.examhelper.app.service.imp.QuesionServiceImp;
 import com.examhelper.app.service.imp.RequestServerImp;
 
 public class App extends Application {
@@ -19,6 +21,7 @@ public class App extends Application {
         //从网络获取试题
         requestServer = new RequestServerImp(this);
         requestServer.loadData();
-
+        IQuestionService questionService=new QuesionServiceImp(this);
+        questionService.queryRandomQuestions();
     }
 }

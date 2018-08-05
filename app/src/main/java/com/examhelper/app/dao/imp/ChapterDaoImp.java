@@ -38,12 +38,8 @@ public class ChapterDaoImp implements IChapterDao {
 
 
     @Override
-    public void delete(Chapter chapter) {
-        try {
-            characterDao.deleteById(chapter.getChapterId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void deleteAll() {
+        characterDao.deleteBuilder().reset();
     }
 
     @Override
@@ -68,7 +64,7 @@ public class ChapterDaoImp implements IChapterDao {
 
     @Override
     public List<Chapter> selectAllChapter() {
-        List<Chapter> chapters=null;
+        List<Chapter> chapters = null;
         try {
             chapters = characterDao.queryForAll();
         } catch (SQLException e) {

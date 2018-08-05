@@ -7,6 +7,7 @@ import com.examhelper.app.dao.imp.QuestionDaoImp;
 import com.examhelper.app.entity.Question;
 import com.examhelper.app.service.IQuestionService;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,8 +34,8 @@ public class QuesionServiceImp implements IQuestionService {
     }
 
     @Override
-    public void removeQuestion(Question question) {
-        questionDaoImp.delete(question);
+    public void removeAllQuestion() {
+        questionDaoImp.deleteAll();
     }
 
     @Override
@@ -51,6 +52,13 @@ public class QuesionServiceImp implements IQuestionService {
     @Override
     public List<Question> queryAllQuestions() {
         List<Question> questions = questionDaoImp.selectAllQuestions();
+        return questions;
+    }
+
+    @Override
+    public List<Question> queryRandomQuestions() {
+        List<Question> questions = questionDaoImp.selectAllQuestions();
+        Collections.shuffle(questions);
         return questions;
     }
 

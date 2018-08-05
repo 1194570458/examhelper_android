@@ -33,8 +33,8 @@ public class ChapterServiceImp implements IChapterService {
     }
 
     @Override
-    public void removeChapter(Chapter chapter) {
-        chapterDaoImp.delete(chapter);
+    public void removeAll() {
+        chapterDaoImp.deleteAll();
     }
 
     @Override

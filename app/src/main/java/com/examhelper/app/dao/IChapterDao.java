@@ -18,11 +18,9 @@ public interface IChapterDao {
 
 
     /**
-     * 删除
-     *
-     * @param chapter
+     * 删除所有
      */
-    void delete(Chapter chapter);
+    void deleteAll();
 
     /**
      * 更新

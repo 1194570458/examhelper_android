@@ -5,5 +5,8 @@ package com.examhelper.app.service;
  */
 
 public interface IRequestServer {
+    /**
+     * 向服务器请求试题数据
+     */
     void loadData();
 }

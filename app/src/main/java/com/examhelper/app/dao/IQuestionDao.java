@@ -17,11 +17,10 @@ public interface IQuestionDao {
     void insert(Question question);
 
     /**
-     * 删除
+     * 删除所有
      *
-     * @param question
      */
-    void delete(Question question);
+    void deleteAll();
 
     /**
      * 更新

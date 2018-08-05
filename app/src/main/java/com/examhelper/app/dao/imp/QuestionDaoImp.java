@@ -38,12 +38,8 @@ public class QuestionDaoImp implements IQuestionDao {
 
 
     @Override
-    public void delete(Question question) {
-        try {
-            questionsDao.deleteById(question.getQuestsionId());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void deleteAll() {
+        questionsDao.deleteBuilder().reset();
     }
 
     @Override
