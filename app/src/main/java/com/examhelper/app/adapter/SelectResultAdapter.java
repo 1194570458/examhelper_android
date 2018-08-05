@@ -83,8 +83,8 @@ public class SelectResultAdapter extends BaseAdapter {
 
     private void initView(final ViewHolder viewHolder, final int position) {
         viewHolder.vote_submit_select_text.setText(select[position-1]);
-        //如果是错题集模式的话，直接显示正确选项和错误选项与解析
-        if (((AnalogyExaminationActivity) mContext).pattern.equals(mContext.getResources().getString(R.string.WrongBook))) {
+        //如果是错题集模式的话，直接显示正确选项和错误选项与解析,之后不在进行点击触发事件，只是进行展示
+        if (((AnalogyExaminationActivity) mContext).pattern.equals(mContext.getResources().getString(R.string.wrong_book))) {
             String wrongSelect = question.getWrongSelect();
             String rightSelect = question.getResult();
             if (wrongSelect.contains(String.valueOf(position))) {

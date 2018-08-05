@@ -56,8 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 IQuestionService iQuestionService = new QuesionServiceImp(v.getContext());
                 List<Question> questions = iQuestionService.queryAllQuestions();
                 intent.putExtra(IntentFlagConstant.GET_QUESTIONS, (Serializable) questions);
-                intent.putExtra(IntentFlagConstant.IS_EXMA, false);
-                intent.putExtra(IntentFlagConstant.PATTERN_TITLE, v.getContext().getResources().getString(R.string.simulation_test));
+                intent.putExtra(IntentFlagConstant.PATTERN_TITLE, v.getContext().getResources().getString(R.string.sequence_practice));
                 startActivity(intent);
                 break;
             //错题本
@@ -71,18 +70,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent2 = new Intent(this, WrongAndCollectionsActivity.class);
                 intent2.putExtra(IntentFlagConstant.IS_WRONGORCOLLECT, NormalConstant.MY_COLLECTION);
                 startActivity(intent2);
-                break;          //随机练习
+                break;
 
+                //随机练习
             case R.id.ll_RondomPratice:
                 Toast.makeText(this, "暂无此功能", Toast.LENGTH_SHORT).show();
                 break;
             //专项考试
             case R.id.ll_SpecialExamination:
                 Toast.makeText(this, "暂无此功能", Toast.LENGTH_SHORT).show();
-
                 break;
-
-
         }
 
     }

@@ -8,6 +8,7 @@ import com.examhelper.app.entity.Chapter;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/7/24.
@@ -66,10 +67,21 @@ public class ChapterDaoImp implements IChapterDao {
     }
 
     @Override
+    public List<Chapter> selectAllChapter() {
+        List<Chapter> chapters=null;
+        try {
+            chapters = characterDao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return chapters;
+    }
+
+    @Override
     public int queryLastId() {
         int proId = 0;
         try {
-            proId = characterDao.queryBuilder().orderBy("chapterId",false).queryForFirst().getChapterId();
+            proId = characterDao.queryBuilder().orderBy("chapterId", false).queryForFirst().getChapterId();
         } catch (SQLException e) {
             e.printStackTrace();
         }
