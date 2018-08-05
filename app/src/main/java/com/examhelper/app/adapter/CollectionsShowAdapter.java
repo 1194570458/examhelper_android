@@ -17,6 +17,7 @@ public class CollectionsShowAdapter extends BaseAdapter {
     private Context context;
     private List<Question> questions;
 
+
     public CollectionsShowAdapter(Context context, List<Question> questions) {
         this.context = context;
         this.questions = questions;

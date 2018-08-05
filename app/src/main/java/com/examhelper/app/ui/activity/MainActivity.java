@@ -2,7 +2,6 @@ package com.examhelper.app.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -17,7 +16,7 @@ import com.examhelper.app.service.imp.QuesionServiceImp;
 import java.io.Serializable;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout ll_RondomPratice;
     private LinearLayout ll_WrongBook;

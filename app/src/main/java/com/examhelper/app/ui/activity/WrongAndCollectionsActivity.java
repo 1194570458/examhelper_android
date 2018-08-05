@@ -1,6 +1,5 @@
 package com.examhelper.app.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.ListView;
@@ -16,7 +15,7 @@ import com.examhelper.app.service.imp.QuesionServiceImp;
 
 import java.util.List;
 
-public class WrongAndCollectionsActivity extends Activity {
+public class WrongAndCollectionsActivity extends BaseActivity {
     private ListView lv_wrongbook;
     private List<Question> questions;
     private TextView tv_title;
