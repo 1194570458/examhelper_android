@@ -29,10 +29,10 @@ public class Question implements Serializable {
     private String result;
 
     //错误选项
-    @DatabaseField()
+    @DatabaseField(defaultValue = "")
     private String wrongSelect;
 
-    @DatabaseField()
+    @DatabaseField(defaultValue = "")
     private String analysis;
 
     //题目所属章节,外键
@@ -51,7 +51,7 @@ public class Question implements Serializable {
     @DatabaseField(dataType = DataType.BOOLEAN)
     private boolean isCollect;
 
-    //选择是否正确
+    //选择是否错误
     @DatabaseField(dataType = DataType.BOOLEAN)
     private boolean isWrong;
 

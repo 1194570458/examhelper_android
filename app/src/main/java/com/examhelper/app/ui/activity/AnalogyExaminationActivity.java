@@ -117,13 +117,12 @@ public class AnalogyExaminationActivity extends BaseActivity implements OnClickL
         ll_wrongbook.setOnClickListener(this);
         ll_time = findViewById(R.id.ll_time);
         leftIv.setOnClickListener(this);
-        totalTv.setText("0 /" + questionAcount);
+        totalTv.setText("1 /" + questionAcount);
         titleTv.setText(pattern);
         viewPager = findViewById(R.id.vote_submit_viewpager);
         viewPager.setOnPageChangeListener(new ExaminationViewPagerListener() {
             @Override
             public void onPageSelected(int position) {
-                //设置当前位置
                 pagePosition = position;
                 totalTv.setText((position + 1) + "/" + questionAcount);
                 judgeIsCollection(questions.get(position));

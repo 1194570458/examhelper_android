@@ -30,8 +30,7 @@ public class ErrorToDetailListener implements View.OnClickListener {
 //        IQuestionService iQuestionService = new QuesionServiceImp(v.getContext());
 //        List<Question> questions = iQuestionService.queryAllQuestions();
         intent.putExtra(IntentFlagConstant.GET_WRONG_QUESTIONS, (Serializable) questions);
-        intent.putExtra(IntentFlagConstant.IS_EXMA, false);
-        intent.putExtra(IntentFlagConstant.PATTERN_TITLE, v.getContext().getResources().getString(R.string.wrong_topic));
+        intent.putExtra(IntentFlagConstant.PATTERN_TITLE, v.getContext().getResources().getString(R.string.wrong_book));
         intent.putExtra(IntentFlagConstant.GET_WRONG_POSITION,position);
         context.startActivity(intent);
 //        Intent intent=new Intent(context, MainActivity.class);

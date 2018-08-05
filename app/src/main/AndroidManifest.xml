@@ -23,13 +23,9 @@
         <activity android:name=".ui.activity.LoginActivity">
 
         </activity>
-        <activity android:name=".ui.activity.RegisterAcitivity">
-        </activity>
-        <activity android:name=".ui.activity.AnalogyExaminationActivity">
-        </activity>
-        <activity android:name=".ui.activity.WrongAndCollectionsActivity">
-
-        </activity>
+        <activity android:name=".ui.activity.RegisterAcitivity"></activity>
+        <activity android:name=".ui.activity.AnalogyExaminationActivity"></activity>
+        <activity android:name=".ui.activity.WrongAndCollectionsActivity"></activity>
     </application>
 
 </manifest>

@@ -12,13 +12,15 @@ public interface IChapterService {
 
     void addChapter(Chapter chapter);
 
-    void addChapters(List<Chapter >chapters);
+    void addChapters(List<Chapter> chapters);
 
     void removeChapter(Chapter chapter);
 
     void updateChapter(Chapter chapter);
 
     Chapter queryChapter(int chapterId);
+
+    List<Chapter> querychapters();
 
     int queryLastId();
 }

@@ -1,7 +1,10 @@
 package com.examhelper.app.ui.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,11 +18,12 @@ import com.examhelper.app.service.imp.QuesionServiceImp;
 
 import java.util.List;
 
-public class WrongAndCollectionsActivity extends BaseActivity {
+public class WrongAndCollectionsActivity extends BaseActivity implements View.OnClickListener{
     private ListView lv_wrongbook;
     private List<Question> questions;
     private TextView tv_title;
-    private  String title;
+    private String title;
+    private ImageView left;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,5 +55,12 @@ public class WrongAndCollectionsActivity extends BaseActivity {
     private void initView() {
         tv_title = (TextView) findViewById(R.id.tv_title);
         tv_title.setText(title);
+        left = (ImageView) findViewById(R.id.left);
+        left.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        this.finish();
     }
 }

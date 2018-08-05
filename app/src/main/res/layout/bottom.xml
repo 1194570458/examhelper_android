@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_menu_margin_5"
-                android:src="@mipmap/wrongb" />
+                android:src="@mipmap/wrong_book_white" />
 
             <TextView
                 style="@style/menu_bottom_text"
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/home_menu_margin_8"
                 android:layout_marginTop="@dimen/home_menu_margin_5"
-                android:text="@string/WrongBook" />
+                android:text="@string/wrong_book" />
         </LinearLayout>
 
     <LinearLayout

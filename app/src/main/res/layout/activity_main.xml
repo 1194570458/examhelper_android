@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/RondomPratice" />
+        android:text="@string/rondom_pratice" />
 </LinearLayout>
 
         <LinearLayout
@@ -49,13 +49,13 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/worngbook" />
+            android:src="@mipmap/wrong_book_blue" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/WrongBook" />
+            android:text="@string/wrong_book" />
         </LinearLayout>
         <ImageView
             android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/SequencePractice" />
+            android:text="@string/sequence_practice" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/SequencePractice" />
+            android:text="@string/sequence_practice" />
     </LinearLayout>
 
     <LinearLayout
@@ -107,7 +107,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/SequencePractice" />
+            android:text="@string/sequence_practice" />
         </LinearLayout>
         <ImageView
             android:layout_marginTop="10dp"
@@ -120,7 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/SimulationTest" />
+            android:text="@string/simulation_test" />
 
     </LinearLayout>
 
@@ -149,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/SpecialExamination" />
+            android:text="@string/special_examination" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_MyCollection"
@@ -169,7 +169,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/MyCollection" />
+            android:text="@string/my_collection" />
         </LinearLayout>
         <ImageView
             android:layout_width="wrap_content"
@@ -181,7 +181,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/SequencePractice" />
+            android:text="@string/rondom_pratice" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -193,6 +193,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/SequencePractice" />
+            android:text="@string/rondom_pratice" />
     </LinearLayout>
 </LinearLayout>

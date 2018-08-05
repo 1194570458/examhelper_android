@@ -49,6 +49,11 @@ public class ChapterServiceImp implements IChapterService {
     }
 
     @Override
+    public List<Chapter> querychapters() {
+        return chapterDaoImp.selectAllChapter();
+    }
+
+    @Override
     public int queryLastId() {
         return chapterDaoImp.queryLastId();
     }
